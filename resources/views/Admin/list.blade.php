@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>List Admin</h1>
+    <h3>List Admin</h3>
     <!-- Hidden Inputs -->
     <input type="hidden" id="adminId" name="adminId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">
@@ -124,6 +124,7 @@
                 $('#actionType').val('create');
                 $('#CreateOrUpdateForm').attr('action', '{{ route('admin.handle-create') }}');
                 $('#CreateOrUpdateForm')[0].reset();
+                $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').show();
                 $('#exampleModalLabel').text('Create a new admin');
                 $('#btnActionText').text('Create');
             } else if (action === 'edit') {
@@ -143,6 +144,7 @@
                         $('#CreateOrUpdateForm input[name="name"]').val(response.data.name);
                         $('#CreateOrUpdateForm input[name="user_name"]').val(response.data.user_name);
                         $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').hide();
+
                         $('#hiddenFileName').val(response.data.image);
                         $('#fileNameDisplay').text(response.data.image);
 
@@ -158,6 +160,7 @@
             $('#exampleModal').modal('show');
 
         }
+
         // Hàm để submit form
         function submitForm() {
             // Kiểm tra từng trường input
@@ -197,7 +200,7 @@
                 url = '{{ url('admin/update') }}/' + adminId;
                 formData.append('_method', 'PUT'); // Thêm phương thức PUT
             }
-
+            console.log('check url:', url);
             // Sử dụng updateUrl trong Ajax request
             $.ajax({
                 type: (actionType === 'create') ? 'POST' :
@@ -210,17 +213,25 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    // Đóng modal khi dữ liệu đã được lưu
-                    $('#exampleModal').modal('hide');
-
-                    // Hiển thị thông báo thành công với SweetAlert
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Data saved successfully!',
-                        showConfirmButton: false,
-                        timer: 1000 // Tự động đóng sau 1.5 giây
-                    });
+                    if (!response.success) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed!',
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 1500 // Tự động đóng sau 1.5 giây
+                        });
+                    } else {
+                        $('#exampleModal').modal('hide');
+                        // Hiển thị thông báo thành công với SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Data saved successfully!',
+                            showConfirmButton: false,
+                            timer: 1500 // Tự động đóng sau 1.5 giây
+                        });
+                    }
                 },
                 error: function(error) {
                     console.log(error.responseJSON);

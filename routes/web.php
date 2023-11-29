@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\SizeController;
@@ -65,6 +66,12 @@ Route::middleware('auth:admin')->group(function(){
     Route::put('product/update/{id}',[ProductController::class,'handleUpdateProduct'])->name('product.handle-update');
     Route::delete('product/delete/{id}',[ProductController::class,'handleDeleteProduct'])->name('product.delete');
 
+    //Product detail
+    Route::get('product/detail/list/{id}',[ProductDetailController::class,'getProductDetailList'])->name('product.detail-list');
+    Route::get('product/detail/update/{id}',[ProductDetailController::class,'viewUpdateProductDetail'])->name('product.detail-update');
+    Route::put('product/detail/update/{id}',[ProductDetailController::class,'handleUpdateProductDetail'])->name('product.detail-handle-update');
+    Route::delete('product/detail/delete/{id}',[ProductDetailController::class,'hanldeDeleteProductDetail'])->name('product.detail-delete');
+
     //Product Category
     Route::get('product-category',[ProductCategoryController::class,'getProductCategoryList'])->name('product-category.list');
     Route::get('product-category/create',[ProductCategoryController::class,'viewCreateProductCategory'])->name('product-category.create');
@@ -107,8 +114,18 @@ Route::middleware('auth:admin')->group(function(){
     //Sale invoice detail
 
     //Import invoice
-
+    Route::get('import-invoice/list',[ImportInvoiceController::class,'getImportInvoiceList'])->name('import-invoice.list');
+    Route::get('import-invoice/create',[ImportInvoiceController::class,'viewCreateImportInvoice'])->name('import-invoice.create');
+    Route::post('import-invoice/create',[ImportInvoiceController::class,'handleCreateImportInvoice'])->name('import-invoice.handle-create');
+    Route::get('import-invoice/update/{id}',[ImportInvoiceController::class,'viewUpdateImportInvoice'])->name('import-invoice.update');
+    Route::put('import-invoice/update/{id}',[ImportInvoiceController::class,'handleUpdateImportInvoice'])->name('import-invoice.handle-update');
+    Route::delete('import-invoice/delete/{id}',[ImportInvoiceController::class,'handleDeleteImportInvoice'])->name('import-invoice.delete');
     //import invoice detail
+    Route::get('import-invoice/detail/list/{id}',[ImportInvoiceDetailController::class,'getImportInvoiceDetailList'])->name('import-invoice.detail-list');
+    Route::get('import-invoice/detail/update/{id}',[ImportInvoiceDetailController::class,'viewUpdateImportInvoiceDetail'])->name('import-invoice.detail-update');
+    Route::put('import-invoice/detail/update/{id}',[ImportInvoiceDetailController::class,'handleUpdateImportInvoiceDetail'])->name('import-invoice.detail-handle-update');
+    Route::delete('import-invoice/detail/delete/{id}',[ImportInvoiceDetailController::class,'handleDeleteImportInvoiceDetail'])->name('import-invoice.detail-delete');
+    
 
     //Slide
     Route::get('slide',[MaterialController::class,'getSlideList'])->name('slide.list');

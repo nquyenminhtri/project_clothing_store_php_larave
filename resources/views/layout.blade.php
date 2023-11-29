@@ -6,7 +6,7 @@
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Material Able bootstrap admin template by Codedthemes</title>
+    <title>Clothing Store</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -22,7 +22,7 @@
         content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
     <meta name="author" content="Codedthemes" />
     <!-- Favicon icon -->
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('logo.ico') }}" type="image/x-icon">
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <!-- waves.css -->
@@ -121,7 +121,8 @@
                             </div>
                         </div>
                         <a href="index.html">
-                            <img class="img-fluid" src="{{ asset('assets/images/logo.png') }}" alt="Theme-Logo" />
+                            <img style="margin-left:-15px;height:50px" class="img-fluid"
+                                src="{{ asset('logo.png') }}" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
@@ -290,7 +291,8 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="{{ route('admin.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-user"></i></span>
+                                        <span class="pcoded-micon"><i class="fas fa-users"></i>
+                                        </span>
                                         <span class="pcoded-mtext">ADMIN</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
@@ -310,8 +312,28 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="{{ route('product.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                        <span class="pcoded-micon"><i class="fab fa-product-hunt"></i></span>
                                         <span class="pcoded-mtext">PRODUCT</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+
+                                </li>
+                            </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                    <a href="{{ route('supplier.list') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                        <span class="pcoded-mtext">SUPPLIER</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+
+                                </li>
+                            </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                    <a href="{{ route('import-invoice.list') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                        <span class="pcoded-mtext">IMPORT VOICE</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -321,7 +343,7 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PRODUCT DETAIL</span>
+                                        <span class="pcoded-mtext">SALE INVOICE</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -341,7 +363,7 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PRODUCT IMAGE</span>
+                                        <span class="pcoded-mtext">SIZE</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -352,6 +374,18 @@
                                     <a href="{{ route('color.list') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
                                         <span class="pcoded-mtext">COLOR</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+
+                                </li>
+                            </ul>
+
+
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                        <span class="pcoded-mtext">MATERIAL</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -377,36 +411,7 @@
 
                                 </li>
                             </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">IMPORT INVOICE DETAIL</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
 
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">IMPORT VOICE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">MATERIAL</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -447,56 +452,8 @@
 
                                 </li>
                             </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">RELATED PRODUCT</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
 
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">REPLY</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
 
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SALE INVOICE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SALE INVOICE DETAIL</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SIZE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -507,39 +464,6 @@
 
                                 </li>
                             </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SLIDE SHOW</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="{{ route('supplier.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SUPPLIER</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext">VIEWWED</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-
-
-
 
                             <div class="pcoded-navigation-label">Forms</div>
 
@@ -724,7 +648,7 @@
 
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }} "></script>
     <script src="{{ asset('sweetalert2/sweetalert2.all.min.js') }}"></script>
-    <!-- <script src="{{ asset('jquery-3.6.4.min.js') }}"></script> -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 @yield('page-js')
 

@@ -9,6 +9,17 @@ class ImportInvoiceDetail extends Model
 {
     use HasFactory;
     protected $table = 'import_invoice_details';
+    protected $fillable = [
+        'import_invoice_id',
+        'product_id',
+        'size_id',
+        'color_id',
+        'material_id',
+        'quantity',
+        'import_price',
+        'sale_price',
+        'import_price_total',
+    ];
     public function importInvoiceDetailImportInvoice(){
         return $this->belongsTo(ImportInvoice::class,'import_invoice_id');
     }

@@ -9,7 +9,10 @@ class ImportInvoice extends Model
 {
     use HasFactory;
     protected $table = 'import_invoices';
-    public function importInvoice(){
+    protected $fillable = [
+        'supplier_id','import_date','total_amount'
+    ];
+    public function importInvoiceSupplier(){
         return $this->belongsTo(Supplier::class,'supplier_id');
     }
 }

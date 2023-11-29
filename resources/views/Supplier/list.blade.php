@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('jquery-3.6.4.min.js') }}"></script>
+
 
     <script>
         // Hàm để set hành động của modal (create hoặc edit)
