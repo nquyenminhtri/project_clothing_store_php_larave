@@ -9,6 +9,11 @@ class ViewedProduct extends Model
 {
     use HasFactory;
     protected $table = 'viewed_products';
+    protected $fillable = [
+        'product_id', 
+        'customer_id',
+        'viewed_at',
+    ];
     public function viewedProductCustomer(){
         return $this->belongsTo(Customer::class,'customer_id');
     }

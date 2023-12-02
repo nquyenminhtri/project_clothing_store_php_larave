@@ -43,6 +43,10 @@ class SupplierController extends Controller
 
         // Trả về thông báo thành công
         return response()->json(['message' => 'Supplier created successfully!']);
+
+        $newRowHtml = view('Supplier/list', ['supplier' => $newSupplier])->render();
+        return response()->json(['message' => 'Supplier created successfully!', 'html' => $newRowHtml]);
+        
     }
     public function viewUpdateSupplier($id)
     {

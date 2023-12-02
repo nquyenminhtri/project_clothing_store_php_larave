@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quantity');
             $table->decimal('import_price',10,2);
             $table->decimal('sale_price',10,2);
-            $table->decimal('import_price_total');
+            $table->decimal('import_price_total',10,2);
             $table->timestamps();
         });
     }

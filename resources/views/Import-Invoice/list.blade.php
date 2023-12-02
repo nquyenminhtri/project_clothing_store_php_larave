@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>List Import invoice</h1>
+    <h4>List Import invoice</h4>
 
     <div class="card">
         <a href="{{ route('import-invoice.create') }}"><button type="button" class="btn btn-primary">Create new Import
@@ -11,6 +11,7 @@
                     <thead>
                         <tr>
                             <th>Number</th>
+                            <th>Admin</th>
                             <th>Supplier</th>
                             <th>Import date</th>
                             <th>Total</th>
@@ -21,6 +22,7 @@
                         @foreach ($importInvoiceList as $importInvoice)
                             <tr>
                                 <td> {{ $importInvoice->id }}</td>
+                                <td>{{ $importInvoice->importInvoiceAdmin->name }}</td>
                                 <td>{{ $importInvoice->importInvoiceSupplier->name }}</td>
                                 <td>{{ $importInvoice->import_date }}</td>
                                 <td>{{ $importInvoice->total_amount }}</td>
@@ -39,9 +41,14 @@
                                 </td>
                             <tr>
                         @endforeach
+
                     </tbody>
+
                 </table>
+
             </div>
         </div>
+
     </div>
+    <div style="">{{ $importInvoiceList->links() }}</div>
 @endsection

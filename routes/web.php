@@ -20,6 +20,7 @@ use App\Http\Controllers\SaleInvoiceDetailController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SlideShowController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\StatisticalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,7 @@ Route::middleware('auth:admin')->group(function(){
 
     //Home
     Route::get('',[HomeController::class,'index'])->name('layout');
+
 
     //Admin
     Route::get('admin', [AdminController::class,'getAdminList'])->name('admin.list');
@@ -70,7 +72,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('product/detail/list/{id}',[ProductDetailController::class,'getProductDetailList'])->name('product.detail-list');
     Route::get('product/detail/update/{id}',[ProductDetailController::class,'viewUpdateProductDetail'])->name('product.detail-update');
     Route::put('product/detail/update/{id}',[ProductDetailController::class,'handleUpdateProductDetail'])->name('product.detail-handle-update');
-    Route::delete('product/detail/delete/{id}',[ProductDetailController::class,'hanldeDeleteProductDetail'])->name('product.detail-delete');
+    Route::delete('product/detail/delete/{id}',[ProductDetailController::class,'handleDeleteProductDetail'])->name('product.detail-delete');
 
     //Product Category
     Route::get('product-category',[ProductCategoryController::class,'getProductCategoryList'])->name('product-category.list');
@@ -110,8 +112,11 @@ Route::middleware('auth:admin')->group(function(){
 
     //Product Image
     //Sale invoice
-
+    Route::get('sale-invoice',[SaleInvoiceController::class,'getSaleInvoiceList'])->name('sale-invoice.list');
+    Route::post('sale-invoice/{id}',[SaleInvoiceController::class,'handleConfirmSaleInvoice'])->name('sale-invoice.confirm');
+    Route::post('sale-invoice/cancel/{id}',[SaleInvoiceController::class,'handleCancelSaleInvoice'])->name('sale-invoice.cancel');
     //Sale invoice detail
+    Route::get('sale-invoice/detail/list/{id}',[SaleInvoiceDetailController::class,'getSaleInvoiceDetailList'])->name('sale-invoice.detail-list');
 
     //Import invoice
     Route::get('import-invoice/list',[ImportInvoiceController::class,'getImportInvoiceList'])->name('import-invoice.list');
@@ -144,6 +149,9 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('supplier/update/{id}',[SupplierController::class,'viewUpdateSupplier'])->name('supplier.update');
     Route::put('supplier/update/{id}',[SupplierController::class,'handleUpdateSupplier'])->name('supplier.handle-update');
     Route::delete('supplier/delete/{id}',[SupplierController::class,'handleDeleteSupplier'])->name('supplier.delete');
+
+    //StatisticalController
+    Route::get('/statistical',[StatisticalController::class,'viewStatistical']);
 });
 
 

@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>List product</h1>
+    <h4>List product</h4>
     <!-- Hidden Inputs -->
     <input type="hidden" id="productId" name="productId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">
@@ -106,13 +106,16 @@
                                 <td style="display:flex;align-items: center;">
                                     <a href="{{ route('product.detail-list', ['id' => $product->id]) }}"><button
                                             class="btn waves-effect waves-light btn-info btn-outline-info"><i
-                                                class="icofont icofont-info-square"></i>Detail</button></a>|
+                                                class="fas fa-info-circle"></i></button></a>|
+                                    <a href="{{ route('product.detail-list', ['id' => $product->id]) }}"><button
+                                            class="btn btn-primary waves-effect waves-light">All photo</button></a>|
                                     <a href="#" onclick="setModalAction('edit', {{ $product->id }})"><button
-                                            type="button" class="btn btn-warning">Edit</button></a>
+                                            type="button" class="btn btn-warning"><i class="far fa-edit"></i></button></a>
                                     |
                                     <form method="POST" action="{{ route('product.delete', ['id' => $product->id]) }}">
                                         @csrf
-                                        @method('DELETE')<button type="submit" class="btn btn-danger">Delete</button>
+                                        @method('DELETE')<button type="submit" class="btn btn-danger"><i
+                                                class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             <tr>

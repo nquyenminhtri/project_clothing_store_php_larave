@@ -1,9 +1,22 @@
+@php
+    $adminAccount = session('adminAccount');
+@endphp
 @extends('layout')
 @section('content')
     <div class="container">
         <h3 class="mt-4 mb-4">Create import invoice</h3>
         <form method="post" action="{{ route('import-invoice.handle-create') }}" class="mb-4">
             @csrf
+
+            @isset($adminAccount)
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <label for="supplier_id">Importer : <h2>{{ $adminAccount->name }}</h2></label>
+                        <input type="text" name="admin_id" id="admin_id" value="{{ $adminAccount->id }}"
+                            class="form-control-sm" hidden>
+                    </div>
+                </div>
+            @endisset
             <div class="form-group">
                 <label for="supplier_id">Select Supplier:</label>
                 <select name="supplier_id" id="supplier_id" class="form-control-sm" required>
@@ -18,7 +31,6 @@
             </div>
 
             <h4 class="mt-4 mb-3">Product</h4>
-
             <div class="form-group">
                 <label for="product">Select product:</label>
                 <select id="product_id" class="form-control-sm">

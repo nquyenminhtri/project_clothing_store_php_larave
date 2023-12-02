@@ -33,6 +33,6 @@ class ImportInvoiceDetail extends Model
         return $this->belongsTo(Color::class,'color_id');
     }
     public function importInvoiceDetailMaterial(){
-        return $this->belongsTo(Product::class,'material_id');
+        return $this->belongsTo(Material::class,'material_id');
     }
 }

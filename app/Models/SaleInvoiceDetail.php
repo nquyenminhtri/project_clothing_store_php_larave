@@ -9,6 +9,17 @@ class SaleInvoiceDetail extends Model
 {
     use HasFactory;
     protected $table = 'sale_invoice_details';
+    protected $fillable = [
+        'sale_invoice_id',
+        'customer_id',
+        'product_id', 
+        'color_id',
+        'size_id',
+        'material_id',
+        'quantity',
+        'unit_price',
+        'price_total'
+    ];
     public function saleInvoiceDetailSaleInvoice(){
         return $this->belongsTo(SaleInvoice::class,'sale_invoice_id');
     }

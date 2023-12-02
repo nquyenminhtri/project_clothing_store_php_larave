@@ -61,9 +61,6 @@ class ProductDetailController extends Controller
             ]);
         }
         $productDetail ->delete();
-        return response()->json([
-            'success'=>true,
-            'message'=>'Product detail deleted completed!'
-        ]);
+        return redirect()->route('product.detail-list',['id'=>$id])->with('status', 'Product detail deleted successed!');
     }
 }

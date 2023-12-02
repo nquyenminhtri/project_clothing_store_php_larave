@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>List Customer</h1>
+    <h4>List Customer</h4>
     <a href="{{ route('admin.create') }}"><button type="submit"
             class="btn waves-effect waves-light btn-primary btn-outline-primary"><i
                 class="icofont icofont-user-alt-3"></i>Create new admin</button></a>

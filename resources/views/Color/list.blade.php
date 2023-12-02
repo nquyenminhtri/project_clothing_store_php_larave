@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>List color</h1>
+    <h4>List color</h4>
     <a href="{{ route('color.create') }}"><button type="submit"
             class="btn waves-effect waves-light btn-primary btn-outline-primary"><i
                 class="icofont icofont-user-alt-3"></i>Create new color</button></a>

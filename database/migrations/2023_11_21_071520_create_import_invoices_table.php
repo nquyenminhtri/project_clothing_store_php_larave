@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('import_invoices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('supplier_id');
             $table->date('import_date');
             $table->decimal('total_amount',10,2);

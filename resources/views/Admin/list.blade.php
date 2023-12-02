@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h3>List Admin</h3>
+    <h4>List Admin</h4>
     <!-- Hidden Inputs -->
     <input type="hidden" id="adminId" name="adminId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">

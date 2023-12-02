@@ -9,7 +9,7 @@ class ProductImage extends Model
 {
     use HasFactory;
     protected $table = 'product_images';
-    public function productImage(){
+    public function productImageProduct(){
         return $this->belongsTo(Product::class,'product_id');
     }
 }

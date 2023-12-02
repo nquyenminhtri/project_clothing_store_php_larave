@@ -277,63 +277,164 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="pcoded-navigation-label">Navigation</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="active">
-                                    <a href="{{ route('layout') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext">Dashboard</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                            </ul>
-
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
-                                    <a href="{{ route('admin.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="fas fa-users"></i>
-                                        </span>
-                                        <span class="pcoded-mtext">ADMIN</span>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="fas fa-user"></i></span>
+                                        <span class="pcoded-mtext">
+                                            Account management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('admin.list') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="fas fa-users"></i>
+                                                </span>
+                                                <span class="pcoded-mtext">ADMIN</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-user"></i><b></b></span>
+                                                <span class="pcoded-mtext">CUSTOMER</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
 
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-user"></i><b></b></span>
-                                        <span class="pcoded-mtext">CUSTOMER</span>
+                                        <span class="pcoded-micon"><i class="far fa-file-alt"></i></span>
+                                        <span class="pcoded-mtext">
+                                            Invoice management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('sale-invoice.list') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">SALE INVOICE</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('import-invoice.list') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">IMPORT VOICE</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
 
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
-                                    <a href="{{ route('product.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="fab fa-product-hunt"></i></span>
-                                        <span class="pcoded-mtext">PRODUCT</span>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="fas fa-cubes"></i></span>
+                                        <span class="pcoded-mtext">
+                                            Product management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('product.list') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="fas fa-dice-d6"></i></span>
+                                                <span class="pcoded-mtext">PRODUCT</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
 
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('product-category.list') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">PRODUCT CATEGORY</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('size.list') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">SIZE</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="{{ route('color.list') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">COLOR</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">MATERIAL</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="fas fa-percent"></i></span>
+                                        <span class="pcoded-mtext">
+                                            Promotion management</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">Promotion</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">Promotion code</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i
+                                                        class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                                <span class="pcoded-mtext">Promotion product</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="{{ route('supplier.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SUPPLIER</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="{{ route('import-invoice.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">IMPORT VOICE</span>
+                                        <span class="pcoded-micon"><i class="fas fa-truck"></i></span>
+                                        <span class="pcoded-mtext">Supplier management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -342,50 +443,8 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SALE INVOICE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="{{ route('product-category.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PRODUCT CATEGORY</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SIZE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="{{ route('color.list') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">COLOR</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-
-
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">MATERIAL</span>
+                                        <span class="pcoded-micon"><i class="fas fa-sliders-h"></i></span>
+                                        <span class="pcoded-mtext">Manage sliders</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -395,7 +454,7 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">COMMENT</span>
+                                        <span class="pcoded-mtext">Comment</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -405,18 +464,7 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">FAVORITE PRODUCT</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PROMOTION</span>
+                                        <span class="pcoded-mtext">Favorite product</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
@@ -426,83 +474,13 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PROMOTION CODE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">PROMOTION PRODUCT</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">RATING</span>
+                                        <span class="pcoded-mtext">Rating</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 
                                 </li>
                             </ul>
 
-
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                                        <span class="pcoded-mtext">SLIDE</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-
-                                </li>
-                            </ul>
-
-                            <div class="pcoded-navigation-label">Forms</div>
-
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="">
-                                    <a href="#" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                        <span class="pcoded-mtext">Form</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="pcoded-navigation-label">Tables</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="">
-                                    <a href="bs-basic-table.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-receipt"></i><b>B</b></span>
-                                        <span class="pcoded-mtext">Table</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="pcoded-navigation-label">Chart And Maps</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="">
-                                    <a href="chart-morris.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-bar-chart-alt"></i><b>C</b></span>
-                                        <span class="pcoded-mtext">Charts</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="map-google.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-map-alt"></i><b>M</b></span>
-                                        <span class="pcoded-mtext">Maps</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                            </ul>
                             <div class="pcoded-navigation-label">Pages</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
@@ -648,7 +626,8 @@
 
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }} "></script>
     <script src="{{ asset('sweetalert2/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <script src="{{ asset('chart.js/dist/chart.umd.js') }}"></script>
 </body>
 @yield('page-js')
 

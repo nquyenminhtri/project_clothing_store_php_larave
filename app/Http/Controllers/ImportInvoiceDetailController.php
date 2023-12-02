@@ -61,7 +61,7 @@ class ImportInvoiceDetailController extends Controller
         ]);
     }
     public function handleDeleteImportInvoiceDetail($id){
-        $importInvoiceDetail = ImportInvoiceDetail::find($id)->first();
+        $importInvoiceDetail = ImportInvoiceDetail::find($id);
         if(!$importInvoiceDetail){
             return response()->json([
                 'success' =>false,

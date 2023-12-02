@@ -9,7 +9,13 @@ class SaleInvoice extends Model
 {
     use HasFactory;
     protected $table = 'sale_invoices';
-    public function saleInvoice(){
+    protected $fillable = [
+        'customer_id',
+        'export_date', 
+        'status',
+        'total_amount'
+    ];
+    public function saleInvoiceCustomer(){
         return $this->belongsTo(Customer::class,'customer_id');
     }
 }

@@ -118,7 +118,7 @@
                                         </a>
                                         |
                                         <form method="POST"
-                                            action="{{ route('product.detail-delete', ['id' => $importInvoiceDetail->id]) }}">
+                                            action="{{ route('import-invoice.detail-delete', ['id' => $importInvoiceDetail->id]) }}">
                                             @csrf
                                             @method('DELETE')<button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
