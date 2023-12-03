@@ -18,4 +18,8 @@ class SaleInvoice extends Model
     public function saleInvoiceCustomer(){
         return $this->belongsTo(Customer::class,'customer_id');
     }
+    public function saleInvoiceSaleInvoiceDetail()
+    {
+        return $this->hasMany(SaleInvoiceDetail::class, 'sale_invoice_id');
+    }
 }

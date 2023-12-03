@@ -1,6 +1,12 @@
 @extends('layout')
 @section('content')
-    <h1>List Comment</h1>
+    <div style="display:flex; margin-top:-20px" class="row">
+        <h4 style="margin-left:2%;margin-right:36%">List Comment</h4>
+        <div class="col-md-6">
+
+            <input type="text" class="form-control" id="search" placeholder="Enter keywords">
+        </div>
+    </div>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary btn-click" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
@@ -64,7 +70,7 @@
             </div>
         </div>
     </div>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection
-$('.btn-click').click(function(){
-
-})

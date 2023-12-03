@@ -1,6 +1,12 @@
 @extends('layout')
 @section('content')
-    <h4>List Admin</h4>
+    <div style="display:flex; margin-top:-20px" class="row">
+        <h4 style="margin-left:2%;margin-right:36%">List Favorite Product</h4>
+        <div class="col-md-6">
+
+            <input type="text" class="form-control" id="search" placeholder="Enter keywords">
+        </div>
+    </div>
     <a href="{{ route('admin.create') }}"><button type="submit"
             class="btn waves-effect waves-light btn-primary btn-outline-primary"><i
                 class="icofont icofont-user-alt-3"></i>Create new admin</button></a>
@@ -38,4 +44,7 @@
             </div>
         </div>
     </div>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

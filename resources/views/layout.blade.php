@@ -1,5 +1,7 @@
 @php
     $adminAccount = session('adminAccount');
+    $newSaleInvoiceList = session('newSaleInvoiceList');
+    $newCustomerList = session('newCustomerList');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -152,51 +154,27 @@
                                         <h6>Notifications</h6>
                                         <label class="label label-danger">New</label>
                                     </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src="{{ asset('assets/images/huytuan.jpg') }}"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">John Doe</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
+
+                                    @foreach ($newCustomerList as $newCustomer)
+                                        <li class="waves-effect waves-light">
+                                            <div class="media">
+                                                <img style="height:40px" class="d-flex align-self-center img-radius"
+                                                    src="{{ asset('assets/images/huytuan.jpg') }}"
+                                                    alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <h5 class="notification-user">{{ $newCustomer->name }}</h5>
+                                                    <p class="notification-msg">{{ $newCustomer->phone }}</p>
+                                                    <span class="notification-time">{{ $newCustomer->address }}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src="{{ asset('assets/images/avatar-2.jpg') }}"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Joseph William</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src="{{ asset('assets/images/avatar-3.jpg') }}"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Sara Soudein</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     @isset($adminAccount)
-                                        <img style="height:50px"
+                                        <img style="height:40px"
                                             src="{{ asset('admin-images/' . $adminAccount->image) }}" class="img-radius"
                                             alt="User-Profile-Image">
 
@@ -247,8 +225,8 @@
                             <div class="">
                                 <div class="main-menu-header">
                                     @isset($adminAccount)
-                                        <img style='height:70px' class="img-80 img-radius"
-                                            src="{{ asset('admin-images/' . $adminAccount->image) }}""
+                                        <img style='height:60px' class="img-80 img-radius"
+                                            src="{{ asset('admin-images/' . $adminAccount->image) }}"
                                             alt="User-Profile-Image">
                                         <div class="user-details">
                                             <span id="more-details">{{ $adminAccount->name }}<i
@@ -519,7 +497,6 @@
                     </nav>
                     <div class="pcoded-content">
                         <!-- Page-header start -->
-
                         <div class="page-header">
                             <div class="page-block">
                                 <div class="row align-items-center">
@@ -534,7 +511,7 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{ route('layout') }}"> <i class="fa fa-home"></i> </a>
                                             </li>
-                                            <li class="breadcrumb-item"><a href="#!">Dashboard</a>
+                                            <li class="breadcrumb-item"><a href="{{ route('layout') }}">Dashboard</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -550,6 +527,216 @@
 
                                     <!-- Page-body start -->
                                     <div class="page-body">
+
+                                        @php
+                                            $showCardContent = !isset($hideCardContent) || !$hideCardContent;
+                                        @endphp
+
+                                        @if ($showCardContent)
+                                            <div class="row">
+                                                <div class="col-xl-6 col-md-12">
+                                                    <div class="card table-card">
+                                                        <div class="card-header">
+                                                            <h5>Order awaiting confirmation</h5>
+                                                            <div class="card-header-right">
+                                                                <ul class="list-unstyled card-option">
+                                                                    <li><i
+                                                                            class="fa fa fa-wrench open-card-option"></i>
+                                                                    </li>
+                                                                    <li><i class="fa fa-window-maximize full-card"></i>
+                                                                    </li>
+                                                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                    <li><i class="fa fa-trash close-card"></i></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-block">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover m-b-0 without-header">
+                                                                    <tbody>
+                                                                        @foreach ($newSaleInvoiceList as $newSaleInvoice)
+                                                                            <tr style="width:100%">
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="d-inline-block align-middle">
+                                                                                        <img src="assets/images/avatar-4.jpg"
+                                                                                            alt="user image"
+                                                                                            class="img-radius img-40 align-top m-r-15">
+                                                                                        <div class="d-inline-block">
+                                                                                            <h6>{{ $newSaleInvoice->saleInvoiceCustomer->name }}
+                                                                                            </h6>
+
+                                                                                            <p
+                                                                                                class="text-muted m-b-0">
+                                                                                                {{ $newSaleInvoice->export_date }}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            @if ($newSaleInvoice->status === 'unconfimred')
+                                                                                                <div
+                                                                                                    class="label-main">
+                                                                                                    <label
+                                                                                                        class="label label-warning">{{ $newSaleInvoice->status }}</label>
+                                                                                                </div>
+                                                                                            @elseif($newSaleInvoice->status === 'delivering')
+                                                                                                <div
+                                                                                                    class="label-main">
+                                                                                                    <label
+                                                                                                        class="label label-success">{{ $newSaleInvoice->status }}</label>
+                                                                                                </div>
+                                                                                            @elseif($newSaleInvoice->status === 'successed')
+                                                                                                <div
+                                                                                                    class="label-main">
+                                                                                                    <label
+                                                                                                        class="label label-primary">{{ $newSaleInvoice->status }}</label>
+                                                                                                </div>
+                                                                                            @else
+                                                                                                <div
+                                                                                                    class="label-main">
+                                                                                                    <label
+                                                                                                        class="label label-danger">{{ $newSaleInvoice->status }}</label>
+                                                                                                </div>
+                                                                                            @endif
+                                                                                        </div>
+
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <p>
+                                                                                            Sản phẩm 1
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6>
+                                                                                        {{ $newSaleInvoice->total_amount }}vnđ
+                                                                                    </h6>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-6 col-md-12">
+                                                    <div style="margin-bottom:4%" class="row">
+
+                                                        <div style="width:40%;" class="col-md-6">
+
+                                                            <label class="label label-inverse-primary">
+                                                                Start date:</label>
+
+                                                            <input type="date" id="startDate" name="startDate"
+                                                                class="form-control">
+                                                        </div>
+                                                        <div style="width:40%;" class="col-md-6">
+
+                                                            <label class="label label-inverse-primary">End
+                                                                date:</label>
+
+                                                            <input type="date" id="endDate" name="endDate"
+                                                                class="form-control">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <!-- sale card start -->
+
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Total revenue</h6>
+                                                                    <h4 id="total_revenue" class="m-t-15 m-b-15">0$<i
+                                                                            class="fa fa-arrow-down m-r-15 text-c-red"></i>
+                                                                    </h4>
+                                                                    <p class="m-b-0">48% From Last 24 Hours</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Order successed</h6>
+                                                                    <h4 id="saleInvoiceSuccessed"
+                                                                        class="m-t-15 m-b-15"><i
+                                                                            class="fa fa-arrow-up m-r-15 text-c-green"></i>0
+                                                                    </h4>
+                                                                    <p class="m-b-0">36% From Last 6 Months</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card bg-c-red total-card">
+                                                                <div class="card-block">
+                                                                    <div class="text-left">
+                                                                        <h4 id="saleInvoiceCancelled">0</h4>
+                                                                        <p class="m-0">Order was cancelled</p>
+                                                                    </div>
+                                                                    <span
+                                                                        class="label bg-c-red value-badges">15%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card bg-c-green total-card">
+                                                                <div class="card-block">
+                                                                    <div class="text-left">
+                                                                        <h4 id="customerCreatedByDate">0</h4>
+                                                                        <p class="m-0">New customer</p>
+                                                                    </div>
+                                                                    <span class="label bg-c-green value-badges"
+                                                                        id="newCustomerPercentage">0%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Net profit</h6>
+                                                                    <h4 id="netProfit" class="m-t-15 m-b-15"><i
+                                                                            class="fa fa-arrow-down m-r-15 text-c-red"></i>
+                                                                    </h4>VNĐ
+                                                                    <p class="m-b-0">48% From Last 24 Hours</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Unique Visitors</h6>
+                                                                    <h4 class="m-t-15 m-b-15"><i
+                                                                            class="fa fa-arrow-down m-r-15 text-c-red"></i>652
+                                                                    </h4>
+                                                                    <p class="m-b-0">36% From Last 6 Months</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Monthly Earnings</h6>
+                                                                    <h4 id="saleInvoiceCanCelled"
+                                                                        class="m-t-15 m-b-15"><i
+                                                                            class="fa fa-arrow-up m-r-15 text-c-green"></i>5963
+                                                                    </h4>
+                                                                    <p class="m-b-0">36% From Last 6 Months</p>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
+                                                        <!-- sale card end -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @endif
                                         @yield('content')
                                     </div>
                                     <!-- Page-body end -->
@@ -562,51 +749,6 @@
             </div>
         </div>
     </div>
-    <!-- Warning Section Starts -->
-    <!-- Older IE warning message -->
-    <!--[if lt IE 10]>
-<div class="ie-warning">
-<h1>Warning!!</h1>
-<p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
-<div class="iew-container">
-    <ul class="iew-download">
-        <li>
-            <a href="http://www.google.com/chrome/">
-                <img src="assets/images/browser/chrome.png" alt="Chrome">
-                <div>Chrome</div>
-            </a>
-        </li>
-        <li>
-            <a href="https://www.mozilla.org/en-US/firefox/new/">
-                <img src="assets/images/browser/firefox.png" alt="Firefox">
-                <div>Firefox</div>
-            </a>
-        </li>
-        <li>
-            <a href="http://www.opera.com">
-                <img src="assets/images/browser/opera.png" alt="Opera">
-                <div>Opera</div>
-            </a>
-        </li>
-        <li>
-            <a href="https://www.apple.com/safari/">
-                <img src="assets/images/browser/safari.png" alt="Safari">
-                <div>Safari</div>
-            </a>
-        </li>
-        <li>
-            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                <img src="assets/images/browser/ie.png" alt="">
-                <div>IE (9 & above)</div>
-            </a>
-        </li>
-    </ul>
-</div>
-<p>Sorry for the inconvenience!</p>
-</div>
-<![endif]-->
-    <!-- Warning Section Ends -->
-
     <!-- Required Jquery -->
     <script type="text/javascript" src="{{ asset('assets/js/jquery/jquery.min.js ') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery-ui/jquery-ui.min.js') }} "></script>
@@ -616,21 +758,16 @@
     <script src="{{ asset('assets/pages/waves/js/waves.min.js') }}"></script>
     <!-- jquery slimscroll js -->
     <script type="text/javascript" src="{{ asset('assets/js/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
-
     <!-- slimscroll js -->
     <script src="{{ asset('assets/js/jquery.mCustomScrollbar.concat.min.js') }} "></script>
-
     <!-- menu js -->
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
     <script src="{{ asset('assets/js/vertical/vertical-layout.min.js ') }}"></script>
-
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }} "></script>
     <script src="{{ asset('sweetalert2/sweetalert2.all.min.js') }}"></script>
-
     <script src="{{ asset('chart.js/dist/chart.umd.js') }}"></script>
 </body>
 @yield('page-js')
-
 @if (session('status'))
     <script>
         Swal.fire("{{ session('status') }}");
@@ -638,3 +775,71 @@
 @endif
 
 </html>
+<script>
+    // get value when reload page
+    $(window).on('load', function() {
+        // get today
+        var today = new Date();
+        // formatt date to yyyy-MM-dd 
+        var formattedDate = today.toISOString().slice(0, 10);
+
+        // Kiểm tra xem phần tử có tồn tại không trước khi gán giá trị
+        var startDateElement = document.getElementById('startDate');
+        var endDateElement = document.getElementById('endDate');
+
+        if (startDateElement) {
+            startDateElement.value = '2020-01-01';
+        }
+
+        if (endDateElement) {
+            endDateElement.value = formattedDate;
+        }
+
+        // Lấy giá trị của ngày được chọn sau khi trang đã được load lại
+        var startDateValue = $("#startDate").val();
+        var endDateValue = $("#endDate").val();
+
+        applyFilter(startDateValue, endDateValue);
+    });
+    $(document).ready(function() {
+        $('#startDate,#endDate').on('input', function() {
+            // get value selected
+            var startDateValue = $("#startDate").val();
+            var endDateValue = $("#endDate").val();
+            console.log('check date', startDateValue, endDateValue);
+            applyFilter(startDateValue, endDateValue);
+        });
+    });
+
+    function applyFilter(startDateValue, endDateValue) {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('sale-invoice.filter') }}',
+            data: {
+                startDate: startDateValue,
+                endDate: endDateValue
+            },
+
+            success: function(response) {
+                var total_revenue = response.data.total_revenue;
+                var customerCreatedByDate = response.data.customerCreatedByDate;
+                var saleInvoiceSuccessed = response.data.saleInvoiceSuccessed;
+                var saleInvoiceCancelled = response.data.saleInvoiceCancelled;
+                let netProfit = response.data.netProfit;
+                netProfit = netProfit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                console.log('check net profit:', netProfit);
+                // view new value in html
+                $('#total_revenue').text(total_revenue);
+                $('#customerCreatedByDate').text(customerCreatedByDate);
+                $('#saleInvoiceSuccessed').text(saleInvoiceSuccessed);
+                $('#saleInvoiceCancelled').text(saleInvoiceCancelled);
+                $('#netProfit').text(netProfit);
+            },
+
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+    }
+</script>

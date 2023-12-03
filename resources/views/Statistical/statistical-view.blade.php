@@ -1,36 +1,57 @@
 @extends('layout')
-@section('content')
-    <h1>Statistical Report</h1>
 
-    <canvas id="lineChart" width="400" height="400"></canvas>
+@section('content')
+    <h1>Statistical View</h1>
+
+    <h2>Daily Revenue</h2>
+    <canvas id="dailyRevenueChart" width="400" height="200"></canvas>
+
+    <h2>Weekly Revenue</h2>
+    <canvas id="weeklyRevenueChart" width="400" height="200"></canvas>
+
+    <h2>Monthly Revenue</h2>
+    <canvas id="monthlyRevenueChart" width="400" height="200"></canvas>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var ctx = document.getElementById('lineChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
+            var ctxDaily = document.getElementById('dailyRevenueChart').getContext('2d');
+            var myChartDaily = new Chart(ctxDaily, {
+                type: 'bar',
                 data: {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    labels: @json($dailyRevenue->keys()),
                     datasets: [{
-                        label: 'Monthly Sales',
-                        data: [12, 19, 3, 5, 2, 3, 15],
+                        label: 'Daily Revenue',
+                        data: @json($dailyRevenue->values()),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1,
-                        fill: false,
                     }]
                 },
                 options: {
                     scales: {
                         x: {
-                            type: 'linear',
+                            type: 'category',
                             position: 'bottom'
                         },
                         y: {
-                            min: 0,
+                            beginAtZero: true
                         }
                     }
                 }
             });
+
+            var ctxWeekly = document.getElementById('weeklyRevenueChart').getContext('2d');
+            var myChartWeekly = new Chart(ctxWeekly, {
+                // ... (similar configuration for weekly chart)
+            });
+
+            var ctxMonthly = document.getElementById('monthlyRevenueChart').getContext('2d');
+            var myChartMonthly = new Chart(ctxMonthly, {
+                // ... (similar configuration for monthly chart)
+            });
         });
     </script>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

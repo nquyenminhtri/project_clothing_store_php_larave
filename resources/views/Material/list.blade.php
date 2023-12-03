@@ -1,6 +1,12 @@
 @extends('layout')
 @section('content')
-    <h1>List material</h1>
+    <div style="margin-left:1%;withd:100%;height:50px;display:flex; margin-top:-20px" class="row">
+        <h4 style="width:50%;">List Material</h4>
+        <div style="width:40%;" class="col-md-6">
+
+            <input style="width:100%;" type="text" class="form-control" id="search" placeholder="Enter keywords">
+        </div>
+    </div>
     <a href="{{ route('material.create') }}"><button type="submit"
             class="btn waves-effect waves-light btn-primary btn-outline-primary"><i
                 class="icofont icofont-user-alt-3"></i>Create new material</button></a>
@@ -34,4 +40,7 @@
             </div>
         </div>
     </div>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

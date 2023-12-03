@@ -34,4 +34,7 @@
             </div>
         </div>
     </div>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

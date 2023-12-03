@@ -42,6 +42,7 @@ Route::middleware('auth:admin')->group(function(){
 
     //Home
     Route::get('',[HomeController::class,'index'])->name('layout');
+    Route::get('sale-invoice/filter',[HomeController::class,'getData'])->name('sale-invoice.filter');
 
 
     //Admin
@@ -115,6 +116,8 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('sale-invoice',[SaleInvoiceController::class,'getSaleInvoiceList'])->name('sale-invoice.list');
     Route::post('sale-invoice/{id}',[SaleInvoiceController::class,'handleConfirmSaleInvoice'])->name('sale-invoice.confirm');
     Route::post('sale-invoice/cancel/{id}',[SaleInvoiceController::class,'handleCancelSaleInvoice'])->name('sale-invoice.cancel');
+
+
     //Sale invoice detail
     Route::get('sale-invoice/detail/list/{id}',[SaleInvoiceDetailController::class,'getSaleInvoiceDetailList'])->name('sale-invoice.detail-list');
 

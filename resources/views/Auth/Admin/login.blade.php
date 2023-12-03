@@ -115,12 +115,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" name="user_name" class="form-control">
+                                    <input type="text" name="user_name" value="admin" class="form-control">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Your Username</label>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" value="12345" class="form-control">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Password</label>
                                 </div>

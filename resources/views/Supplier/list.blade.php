@@ -1,6 +1,12 @@
 @extends('layout')
 @section('content')
-    <h1>List supplier</h1>
+    <div style="margin-left:1%;withd:100%;height:50px;display:flex; margin-top:-20px" class="row">
+        <h4 style="width:50%;" id="idTest">List Supplier</h4>
+        <div style="width:40%;" class="col-md-6">
+
+            <input style="width:100%;" type="text" class="form-control" id="search" placeholder="Enter keywords">
+        </div>
+    </div>
     <!-- Hidden Inputs -->
     <input type="hidden" id="supplierId" name="supplierId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">
@@ -10,6 +16,7 @@
         onclick="setModalAction('create')">
         <i class="icofont icofont-user-alt-3"></i>Create new supplier
     </button>
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -91,10 +98,14 @@
                                     <a href="#" onclick="setModalAction('edit', {{ $supplier->id }})"><button
                                             type="button" class="btn btn-warning">Edit</button></a>
                                     |
-                                    <form method="POST" action="{{ route('supplier.delete', ['id' => $supplier->id]) }}">
+                                    <form id="deleteForm_{{ $supplier->id }}"
+                                        onsubmit="return confirm('Are you sure you want to delete this supplier?');">
                                         @csrf
-                                        @method('DELETE')<button type="submit" class="btn btn-danger">Delete</button>
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="deleteSupplier({{ $supplier->id }})">Delete</button>
                                     </form>
+
                                 </td>
                             <tr>
                         @endforeach
@@ -103,14 +114,12 @@
             </div>
         </div>
     </div>
-
-
-
+    @php
+        $deleteMethod = method_field('DELETE');
+    @endphp
     <script>
-        // Hàm để set hành động của modal (create hoặc edit)
         function setModalAction(action, supplierId = null) {
             if (action === 'create') {
-                // Nếu là tạo mới, đặt lại biểu mẫu và thay đổi tiêu đề modal
                 $('#supplierId').val('');
                 $('#actionType').val('create');
                 $('#CreateOrUpdateForm').attr('action', '{{ route('supplier.handle-create') }}');
@@ -123,12 +132,10 @@
                 $('#CreateOrUpdateForm').attr('action', '{{ url('supplier/update') }}/' + supplierId);
                 $('#exampleModalLabel').text('Edit supplier');
                 $('#btnActionText').text('Save');
-                // Lấy dữ liệu nhà cung cấp bằng Ajax
                 $.ajax({
                     type: 'GET',
                     url: '{{ url('supplier/update') }}/' + supplierId,
                     success: function(response) {
-                        // Điền vào biểu mẫu với dữ liệu nhà cung cấp
                         $('#CreateOrUpdateForm input[name="name"]').val(response.name);
                         $('#CreateOrUpdateForm input[name="address"]').val(response.address);
                         $('#CreateOrUpdateForm input[name="phone"]').val(response.phone);
@@ -139,51 +146,133 @@
                     }
                 });
             }
-            // Hiển thị modal
             $('#exampleModal').modal('show');
         }
-        // Hàm để submit form
+
         function submitForm() {
-            // Kiểm tra từng trường input
             var formIsValid = true;
             $('#CreateOrUpdateForm input[required]').each(function() {
                 if (!this.validity.valid) {
                     formIsValid = false;
-                    // Hiển thị thông báo cho trường bị bỏ trống
                     $(this).next('.error-message').text('Missing parameters');
                 } else {
-                    // Ẩn thông báo khi nhập đúng
                     $(this).next('.error-message').text('');
                 }
             });
-            // Nếu form không hợp lệ, dừng lại và không gửi Ajax request
             if (!formIsValid) {
                 return;
             }
-            // Lấy giá trị của actionType
+            // Get value actionType
             var actionType = $('#actionType').val();
-            // Lấy giá trị của ID (nếu có)
+            // Get value of ID (if any)
             var supplierId = $('#supplierId').val();
-            // Sử dụng Ajax để gửi dữ liệu form
             $.ajax({
                 type: (actionType === 'create') ? 'POST' : 'PUT',
-                // Sử dụng toán tử ba ngôi để chọn route phù hợp
                 url: (actionType === 'create') ? '{{ route('supplier.handle-create') }}' :
                     '{{ url('supplier/update') }}/' + supplierId,
-                // Điều chỉnh dữ liệu đang được gửi dựa trên actionType
                 data: (actionType === 'create') ? $('#CreateOrUpdateForm').serialize() : ($('#CreateOrUpdateForm')
                     .serialize() + '&_method=' + (actionType === 'create' ? 'POST' : 'PUT') + '&_token=' + $(
                         'meta[name="csrf-token"]').attr('content')),
                 success: function(response) {
-                    // Đóng modal khi dữ liệu đã được lưu
+
+                    if (response.success) {
+                        fillDataTable(response.data);
+                    }
+
                     $('#exampleModal').modal('hide');
-                    // Hiển thị thông báo thành công
-                    alert('Dữ liệu đã được lưu thành công!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Data saved successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                },
+
+                error: function(error) {
+                    console.log(error.responseJSON);
+                }
+            });
+        }
+
+        function deleteSupplier(supplierId) {
+            // Send Ajax to delete
+            $.ajax({
+                type: 'DELETE',
+                url: '/supplier/delete/' + supplierId,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // If deletion is successful, call the Ajax function again to update the data table
+                        fillDataTable(response.data);
+                        alert('Data deleted success!');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Can not delete!',
+                            timer: 1500
+                        });
+                    }
                 },
                 error: function(error) {
                     console.log(error.responseJSON);
                 }
             });
         }
+
+        function fillDataTable(data) {
+            $('#tableContainer tbody').empty();
+            var deleteRoute = '{{ route('supplier.delete', ['id' => ':id']) }}';
+            var deleteMethod = '{{ method_field('DELETE') }}';
+
+            $.each(data, function(index, supplier) {
+                console.log('Supplier Name:', supplier.name);
+
+                var deleteUrl = deleteRoute.replace(':id', supplier.id);
+
+                var row = '<tr>' +
+                    '<td>' + supplier.id + '</td>' +
+                    '<td>' + supplier.name + '</td>' +
+                    '<td>' + supplier.address + '</td>' +
+                    '<td>' + supplier.phone + '</td>' +
+                    '<td>' + supplier.description + '</td>' +
+                    '<td style="display:flex;align-items: center;">' +
+                    '<a href="#" onclick="setModalAction(\'edit\', ' + supplier.id + ')">' +
+                    '<button type="button" class="btn btn-warning">Edit</button>' +
+                    '</a> | ' +
+                    '<form id="deleteForm_' + supplier.id +
+                    '" onsubmit="return confirm(\'Are you sure you want to delete this supplier?\');" >' +
+                    '@csrf' +
+                    '@method('DELETE')' +
+                    '<button type="button" class="btn btn-danger" onclick="deleteSupplier(' + supplier.id +
+                    ')">Delete</button>' +
+                    '</form>' +
+                    '</td>' +
+                    '</tr>';
+
+                // Add row to table tbody
+                $('#tableContainer tbody').append(row);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
+            $('#search').on('input', function() {
+                var searchText = $(this).val().toLowerCase();
+
+                // Lọc dữ liệu trong bảng dựa trên từ khóa tìm kiếm
+                $('tbody tr').each(function() {
+                    var rowData = $(this).text().toLowerCase();
+                    // Nếu từ khóa tìm kiếm tồn tại trong dòng dữ liệu, hiển thị dòng đó, ngược lại ẩn đi
+                    $(this).toggle(rowData.includes(searchText));
+                });
+            });
+        });
     </script>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

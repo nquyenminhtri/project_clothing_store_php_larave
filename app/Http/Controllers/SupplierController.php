@@ -40,12 +40,16 @@ class SupplierController extends Controller
         $newSupplier->phone = $request->phone;
         $newSupplier->description = $request->description;
         $newSupplier->save();
-
+       
         // Trả về thông báo thành công
-        return response()->json(['message' => 'Supplier created successfully!']);
+        $supplierList = Supplier::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Supplier created successfully!',
+            'data' => $supplierList
+        ]);
 
-        $newRowHtml = view('Supplier/list', ['supplier' => $newSupplier])->render();
-        return response()->json(['message' => 'Supplier created successfully!', 'html' => $newRowHtml]);
+        //$newRowHtml = view('Supplier/list', ['supplier' => $newSupplier])->render();
         
     }
     public function viewUpdateSupplier($id)
@@ -78,7 +82,13 @@ class SupplierController extends Controller
         $supplier->phone = $request->phone;
         $supplier->description = $request->description;
         $supplier->save();
-        return response()->json(['message' => 'Supplier updated successfully!']);
+        $supplierList = Supplier::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Supplier updated successfully!',
+            'data' => $supplierList
+        ]);
+        
         
     }
     public function handleDeleteSupplier($id){
@@ -87,6 +97,11 @@ class SupplierController extends Controller
             return redirect()->route('supplier.list')->with('status', 'Supplier not found!');
         }
         $supplier ->delete();
-        return redirect()->route('supplier.list')->with('status', 'Delete supplier successfully!');
+        $supplierList = Supplier::all();
+        return response()->json([
+            'success' => true,
+            'status' => 'Supplier updated successfully!',
+            'data' => $supplierList
+        ]);
     }
 }

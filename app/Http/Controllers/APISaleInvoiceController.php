@@ -11,7 +11,8 @@ use App\Models\Customer;
 class APISaleInvoiceController extends Controller
 {
     public function handleCreateSaleInvoice(Request $request) {
-        $data = $request->json()->all();
+        try{
+            $data = $request->json()->all();
         if(empty($data['customer_phone'])){
            return response()->json([
             'success' => false,
@@ -53,7 +54,7 @@ class APISaleInvoiceController extends Controller
     
             $productDetail = ProductDetail::where('product_id', $item['productItemId'])
                 ->where('size_id', $item['sizeItemId'])
-                ->where('color_id', $item['colorItemId'])
+                ->where('color_id', $item['colorItemId'])->where('material_id',$item['materialItemId'])
                 ->first();
     
             if($productDetail){
@@ -67,6 +68,13 @@ class APISaleInvoiceController extends Controller
             'message' =>'Order Success!',
             'data' =>$saleInvoiceDetails
         ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
+        }
+        
     }
     
     public function handleSuccessSaleInvoice($id){

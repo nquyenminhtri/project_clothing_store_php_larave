@@ -53,7 +53,7 @@ class ProductDetailController extends Controller
         ]);
     }
     public function handleDeleteProductDetail($id){
-        $productDetail = ProductDetail::find($id)->first();
+        $productDetail = ProductDetail::find($id);
         if(!$productDetail){
             return response()->json([
                 'success'=>false,
@@ -61,6 +61,6 @@ class ProductDetailController extends Controller
             ]);
         }
         $productDetail ->delete();
-        return redirect()->route('product.detail-list',['id'=>$id])->with('status', 'Product detail deleted successed!');
+        return redirect()->back()->with('status', 'Product detail deleted successed!');
     }
 }

@@ -114,6 +114,8 @@
     @parent {{-- Giữ lại nội dung JS từ layout --}}
     <script type="text/javascript">
         $(document).ready(function() {
+            var productArray = []; // Khai báo biến productArray ở đây
+
             $("#btn-add").click(function() {
                 var number = $('#tb-list-product tbody tr').length + 1;
                 var productName = $("#product_id").find(":selected").text();
@@ -128,6 +130,20 @@
                 var importPrice = $("#import_price").val();
                 var salePrice = $("#sale_price").val();
                 var total = quantity * importPrice;
+
+                console.log("Product Name:", productName);
+                console.log("Product ID:", productId);
+                console.log("Size Name:", sizeName);
+                console.log("Size ID:", sizeId);
+                console.log("Color Name:", colorName);
+                console.log("Color ID:", colorId);
+                console.log("Material Name:", materialName);
+                console.log("Material ID:", materialId);
+                console.log("Quantity:", quantity);
+                console.log("Import Price:", importPrice);
+                console.log("Sale Price:", salePrice);
+                console.log("Total:", total);
+
                 var row = `<tr>
         <td>${number}</td>
         <td>${productName}<input type="hidden" name="productID[]" value="${productId}"/></td>
@@ -140,11 +156,45 @@
         <td>${total}<input type="hidden" name="total[]" value="${total}"/></td>
     </tr>`;
                 $("#tb-list-product").find('tbody').append(row);
+
+                var existingProduct = productArray.find(function(product) {
+                    return (
+                        product.productId == productId &&
+                        product.sizeId == sizeId &&
+                        product.colorId == colorId &&
+                        product.materialId == materialId
+                    );
+                });
+
+                if (existingProduct) {
+                    existingProduct.quantity += parseInt(quantity);
+                    existingProduct.total = existingProduct.quantity * existingProduct.importPrice;
+                } else {
+                    var product = {
+                        productId: productId,
+                        productName: productName,
+                        sizeId: sizeId,
+                        sizeName: sizeName,
+                        colorId: colorId,
+                        colorName: colorName,
+                        materialId: materialId,
+                        materialName: materialName,
+                        quantity: parseInt(quantity),
+                        importPrice: parseFloat(importPrice),
+                        salePrice: parseFloat(salePrice),
+                        total: parseFloat(total),
+                    };
+
+                    productArray.push(product);
+                }
+
                 // Cập nhật ngày nhập và tổng tiền
                 var importDate = $("#import_date").val();
                 var totalAmount = calculateTotalAmount();
-                $("#import_date").val(importDate); // Cập nhật ngày nhập
-                $("#total_amount").val(totalAmount); // Cập nhật tổng tiền
+                $("#import_date").val(importDate);
+                $("#total_amount").val(totalAmount);
+
+                console.log("Product Array:", productArray);
             });
 
             // Hàm tính tổng tiền
@@ -160,4 +210,7 @@
         });
     </script>
 @endsection
+@php
+    $hideCardContent = true;
+@endphp
 @endsection

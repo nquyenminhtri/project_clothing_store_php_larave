@@ -1,6 +1,12 @@
 @extends('layout')
 @section('content')
-    <h4>List product</h4>
+    <div style="margin-left:1%;withd:100%;height:50px;display:flex; margin-top:-20px" class="row">
+        <h4 style="width:50%;">List Product</h4>
+        <div style="width:40%;" class="col-md-6">
+
+            <input style="width:100%;" type="text" class="form-control" id="search" placeholder="Enter keywords">
+        </div>
+    </div>
     <!-- Hidden Inputs -->
     <input type="hidden" id="productId" name="productId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">
@@ -110,7 +116,8 @@
                                     <a href="{{ route('product.detail-list', ['id' => $product->id]) }}"><button
                                             class="btn btn-primary waves-effect waves-light">All photo</button></a>|
                                     <a href="#" onclick="setModalAction('edit', {{ $product->id }})"><button
-                                            type="button" class="btn btn-warning"><i class="far fa-edit"></i></button></a>
+                                            type="button" class="btn btn-warning"><i
+                                                class="far fa-edit"></i></button></a>
                                     |
                                     <form method="POST" action="{{ route('product.delete', ['id' => $product->id]) }}">
                                         @csrf
@@ -277,5 +284,21 @@
                 $('#btnActionText').text('Create');
             });
         });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
+            $('#search').on('input', function() {
+                var searchText = $(this).val().toLowerCase();
+
+                // Lọc dữ liệu trong bảng dựa trên từ khóa tìm kiếm
+                $('tbody tr').each(function() {
+                    var rowData = $(this).text().toLowerCase();
+                    // Nếu từ khóa tìm kiếm tồn tại trong dòng dữ liệu, hiển thị dòng đó, ngược lại ẩn đi
+                    $(this).toggle(rowData.includes(searchText));
+                });
+            });
+        });
     </script>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection

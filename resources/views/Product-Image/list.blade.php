@@ -236,4 +236,7 @@
             });
         });
     </script>
+    @php
+        $hideCardContent = true;
+    @endphp
 @endsection
