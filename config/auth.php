@@ -45,9 +45,9 @@ return [
             'provider' => 'admins'
         ],
         'api' => [
-            'driver' => 'session',
-            'provider' => 'admins'
-        ]
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -70,7 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Customer::class,
         ],
         'admins' => [
             'driver' =>'eloquent',

@@ -77,7 +77,7 @@
     <div class="card">
         <div class="card-block table-border-style">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tableContainer" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Number</th>
@@ -111,8 +111,9 @@
             </div>
         </div>
     </div>
-
-    <script src="{{ asset('jquery-3.6.4.min.js') }}"></script>
+    @php
+        $deleteMethod = method_field('DELETE');
+    @endphp
     <script>
         function handleFileChange() {
             if (this.files && this.files.length > 0) {
@@ -228,6 +229,7 @@
                             timer: 1500 // Tự động đóng sau 1.5 giây
                         });
                     } else {
+                        fillDataTable(response.data);
                         $('#exampleModal').modal('hide');
                         // Hiển thị thông báo thành công với SweetAlert
                         Swal.fire({
@@ -244,8 +246,69 @@
                 }
             });
         }
-    </script>
-    <script>
+
+        function handleDelete(adminId) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/admin/delete/' + adminId,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        fillDataTable(response.data);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'admin deleted success!',
+                            timer: 1300
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'admin deleted failed!',
+                            timer: 1300
+                        });
+                    }
+
+                },
+                error: function(error) {
+                    console.log(error.responseJSON);
+                }
+            })
+        }
+
+        function fillDataTable(data) {
+            console.log('check data: ', data);
+            $('#tableContainer tbody').empty();
+            var deleteRoute = '{{ route('admin.delete', ['id' => ':id']) }}';
+            var deleteMethod = '{{ method_field('DELETE') }}';
+            $.each(data, function(index, admin) {
+                var deleteUrl = deleteRoute.replace(':id', admin.id);
+                var row = '<tr>' +
+                    '<td>' + admin.id + '</td>' +
+                    '<td>' + admin.name + '</td>' +
+                    '<td>' + admin.user_name + '</td>' +
+                    '<td>' + '<img style="width: 100px; height: 100px;" src="' + '{{ asset('admin-images/') }}' +
+                    '/' + admin.image + '" >' +
+                    '</td>' +
+                    '<td style="display:flex;align-items: center;">' +
+                    '<a href="#" onclick="setModalAction(\'edit\', ' + admin.id + ')">' +
+                    '<button type="button" class="btn btn-warning">Edit</button>' +
+                    '</a> | ' +
+                    '<form id="deleteForm_' + admin.id +
+                    '" onsubmit="return confirm(\'Are you sure you want to delete this admin?\');" >' +
+                    '@csrf' +
+                    '@method('DELETE')' +
+                    '<button type="button" class="btn btn-danger" onclick="handleDelete(' + admin.id +
+                    ')">Delete</button>' +
+                    '</form>' +
+                    '</td>' +
+                    '</tr>';
+                $('#tableContainer tbody').append(row);
+            })
+        }
         document.addEventListener("DOMContentLoaded", function() {
             // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
             $('#search').on('input', function() {

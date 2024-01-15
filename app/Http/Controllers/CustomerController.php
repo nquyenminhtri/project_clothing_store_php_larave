@@ -17,6 +17,16 @@ class CustomerController extends Controller
 
     }
     public function handleDeleteCustomer($id){
-        
+        $customer = Customer::find($id);
+        if ($customer->image) {
+            $imagePath = public_path('customer-images/' . $customer->image);
+    
+            // Kiểm tra xem tệp có tồn tại không trước khi xóa
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+        $customer->delete();
+        return redirect()->route('customer.list')->with('status','Delete customer successfully!');
     }
 }

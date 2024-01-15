@@ -29,8 +29,8 @@ class SizeController extends Controller
         $newSize->name = $request->name;
         $newSize->save();
 
-       
-        return response()->json(['message' => 'Size created successfully!']);
+       $newSize = Size::all();
+        return response()->json(['success'=>true,'message' => 'Size created success!', 'data'=>$newSize]);
     }
     public function viewUpdateSize($id)
     {
@@ -38,7 +38,7 @@ class SizeController extends Controller
         if (!$size) {
             return response()->json(['error' => 'Size not found.'], 404);
         }
-        return response()->json($size);
+        return response()->json(['data'=>$size]);
     }
     public function handleUpdateSize(Request $request, $id)
     {
@@ -51,7 +51,8 @@ class SizeController extends Controller
         }
         $size->name = $request->name;
         $size->save();
-        return response()->json(['message' => 'Size updated successfully!']);
+        $size =Size::all();
+        return response()->json(['success'=>true,'message' => 'Size updated successfully!','data'=>$size]);
     }
     public function handleDeleteSize($id){
         $size = Size::find($id);
@@ -59,6 +60,10 @@ class SizeController extends Controller
             return redirect()->route('size.list')->with('status', 'Size not found!');
         }
         $size ->delete();
-        return redirect()->route('size.list')->with('status', 'Delete size successfully!');
+        $size = Size::all();
+        return response()->json([
+            'success' =>true,
+            'data'=>$size
+        ]);
     }
 }

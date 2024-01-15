@@ -87,7 +87,7 @@
     <div class="card">
         <div class="card-block table-border-style">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tableContainer" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Number</th>
@@ -113,16 +113,18 @@
                                     <a href="{{ route('product.detail-list', ['id' => $product->id]) }}"><button
                                             class="btn waves-effect waves-light btn-info btn-outline-info"><i
                                                 class="fas fa-info-circle"></i></button></a>|
-                                    <a href="{{ route('product.detail-list', ['id' => $product->id]) }}"><button
+                                    <a href="{{ route('productImage.detail-list', ['productId' => $product->id]) }}"><button
                                             class="btn btn-primary waves-effect waves-light">All photo</button></a>|
                                     <a href="#" onclick="setModalAction('edit', {{ $product->id }})"><button
                                             type="button" class="btn btn-warning"><i
                                                 class="far fa-edit"></i></button></a>
                                     |
-                                    <form method="POST" action="{{ route('product.delete', ['id' => $product->id]) }}">
+                                    <form id="deleteForm_{{ $product->id }}"
+                                        onsubmit="return confirm('Are you sure you want to delete this product?');">
                                         @csrf
-                                        @method('DELETE')<button type="submit" class="btn btn-danger"><i
-                                                class="fas fa-trash-alt"></i></button>
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="handleDelete({{ $product->id }})">Delete</button>
                                     </form>
                                 </td>
                             <tr>
@@ -133,6 +135,9 @@
         </div>
     </div>
 
+    @php
+        $deleteMethod = method_field('DELETE');
+    @endphp
     <script src="{{ asset('jquery-3.6.4.min.js') }}"></script>
     <script>
         function handleFileChange() {
@@ -248,6 +253,7 @@
                             timer: 1500 // Tự động đóng sau 1.5 giây
                         });
                     } else {
+                        fillDataTable(response.data);
                         $('#exampleModal').modal('hide');
                         // Hiển thị thông báo thành công với SweetAlert
                         Swal.fire({
@@ -265,9 +271,6 @@
             });
         }
         $(document).ready(function() {
-            // In phiên bản jQuery ra console
-            console.log(jQuery.fn.jquery);
-
             // Đăng ký sự kiện khi modal được ẩn
             $('#exampleModal').on('hidden.bs.modal', function() {
                 // Reset lại form
@@ -297,6 +300,71 @@
                 });
             });
         });
+
+        function handleDelete(productId) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/product/delete/' + productId,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        fillDataTable(response.data);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Product deleted success!',
+                            timer: 1300
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Product deleted failed!',
+                            timer: 1300
+                        });
+                    }
+
+                },
+                error: function(error) {
+                    console.log(error.responseJSON);
+                }
+            })
+        }
+
+        function fillDataTable(data) {
+            console.log('check data: ', data);
+            $('#tableContainer tbody').empty();
+            var deleteRoute = '{{ route('product.delete', ['id' => ':id']) }}';
+            var deleteMethod = '{{ method_field('DELETE') }}';
+            $.each(data, function(index, product) {
+                var deleteUrl = deleteRoute.replace(':id', product.id);
+                var row = '<tr>' +
+                    '<td>' + product.id + '</td>' +
+                    '<td>' + product.name + '</td>' +
+                    '<td>' + product.description + '</td>' +
+                    '<td>' + product.product_product_category.name + '</td>' +
+                    '<td>' + product.price + '</td>' +
+                    '<td>' + '<img style="width: 100px; height: 100px;" src="' + '{{ asset('product-images/') }}' +
+                    '/' + product.image + '" >' +
+                    '</td>' +
+                    '<td style="display:flex;align-items: center;">' +
+                    '<a href="#" onclick="setModalAction(\'edit\', ' + product.id + ')">' +
+                    '<button type="button" class="btn btn-warning">Edit</button>' +
+                    '</a> | ' +
+                    '<form id="deleteForm_' + product.id +
+                    '" onsubmit="return confirm(\'Are you sure you want to delete this product?\');" >' +
+                    '@csrf' +
+                    '@method('DELETE')' +
+                    '<button type="button" class="btn btn-danger" onclick="handleDelete(' + product.id +
+                    ')">Delete</button>' +
+                    '</form>' +
+                    '</td>' +
+                    '</tr>';
+                $('#tableContainer tbody').append(row);
+            })
+        }
     </script>
     @php
         $hideCardContent = true;

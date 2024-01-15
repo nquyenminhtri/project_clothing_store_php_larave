@@ -13,6 +13,8 @@ class SaleInvoice extends Model
         'customer_id',
         'export_date', 
         'status',
+        'shipping_id',
+        'payment_method',
         'total_amount'
     ];
     public function saleInvoiceCustomer(){

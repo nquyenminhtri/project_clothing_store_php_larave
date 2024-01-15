@@ -59,7 +59,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::post('customer/create',[CustomerController::class,'handleCreateCustomer'])->name('customer.handle-create');
     Route::get('customer/update/{id}',[CustomerController::class,'viewUpdateCustomer'])->name('customer.update');
     Route::put('customer/update/{id}',[CustomerController::class,'handleUpdateCustomer'])->name('customer.handle-update');
-    Route::delete('customer/delete/{i}',[CustomerController::class,'handleDeleteCustomer'])->name('customer.delete');
+    Route::delete('customer/delete/{id}',[CustomerController::class,'handleDeleteCustomer'])->name('customer.delete');
 
     //Product
     Route::get('product',[ProductController::class,'getProductList'])->name('product.list');
@@ -112,6 +112,9 @@ Route::middleware('auth:admin')->group(function(){
 
 
     //Product Image
+    Route::get('product/image-list/{productId}',[ProductImageController::class, 'getProductImageListByProductId'])->name('productImage.detail-list');
+    Route::post('product/image-create/{productId?}',[ProductImageController::class, 'handleCreateProductImage'])->name('productImage.handle-create');
+    Route::delete('product/image-delete/{productId}',[ProductImageController::class,'handleDeleteProductImage'])->name('productImage.delete');
     //Sale invoice
     Route::get('sale-invoice',[SaleInvoiceController::class,'getSaleInvoiceList'])->name('sale-invoice.list');
     Route::post('sale-invoice/{id}',[SaleInvoiceController::class,'handleConfirmSaleInvoice'])->name('sale-invoice.confirm');

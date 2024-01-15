@@ -49,9 +49,11 @@ class AdminController extends Controller
             $admin->image = $hashedFilename;
         }
         $admin->save();
+        $admin = Admin::all();
         return response()->json([
             'success' => true,
             'message' => 'Account admin created successfully!',
+            'data' => $admin
         ]);
     }
 
@@ -83,8 +85,9 @@ class AdminController extends Controller
     $admin->user_name = $request->user_name;
     // Lưu thay đổi
     $admin->save();
+    $admin = Admin::all();
     // Trả về phản hồi JSON cho mã nguồn JavaScript
-    return response()->json(['success' => true, 'message' => 'Update admin successfully']);
+    return response()->json(['success' => true, 'message' => 'Update admin successfully', 'data' =>$admin]);
     }
     public function handleDeleteAdmin($id){
         $admin = Admin::find($id);

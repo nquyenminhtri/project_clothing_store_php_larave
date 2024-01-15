@@ -88,8 +88,6 @@ class SupplierController extends Controller
             'message' => 'Supplier updated successfully!',
             'data' => $supplierList
         ]);
-        
-        
     }
     public function handleDeleteSupplier($id){
         $supplier = Supplier::find($id);

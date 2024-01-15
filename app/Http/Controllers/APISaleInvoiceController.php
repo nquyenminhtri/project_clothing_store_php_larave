@@ -11,63 +11,74 @@ use App\Models\Customer;
 class APISaleInvoiceController extends Controller
 {
     public function handleCreateSaleInvoice(Request $request) {
+        $cart = $request->input('requestData.cart');
+        $customerData = $request->input('requestData.customerData');
+        $discount = $request->input('requestData.discount');
+        $paymentMethod = $request->input('requestData.paymentMethod');
+        $shippingPrice = $request->input('requestData.shippingPrice');
+        $shippingMethod = $request->input('requestData.shippingMethod');
+        $totalPriceCart = $request->input('requestData.totalPriceCart');
+        
         try{
-            $data = $request->json()->all();
-        if(empty($data['customer_phone'])){
-           return response()->json([
-            'success' => false,
-            'message' =>'Missing phone number!'
-           ], 400);
-        }
-        $customer = Customer::where('phone', $data['customer_phone'])->first();
-        if(!$customer){
-            $customer = Customer::create([
-                'name' =>$data['customer_name'],
-                'gender' =>$data['customer_gender'],
-                'phone' =>$data['customer_phone'],
-                'address' =>$data['customer_address'],
-            ]);
-        }
-        $saleInvoice = SaleInvoice::create([
-            'customer_id' =>$customer->id,
-            'export_date' =>$data['export_date'],
-            'status' =>'unconfimred',
-            'total_amount' =>$data['total_amount']
-        ]);
-    
-        $saleInvoiceDetails = [];
-    
-        foreach($data['saleInvoiceDetail'] as $item){
-            $saleInvoiceDetail = new SaleInvoiceDetail([
-                'sale_invoice_id' => $saleInvoice->id,
-                'product_id' =>$item['productItemId'],
-                'size_id' =>$item['sizeItemId'],
-                'color_id' =>$item['colorItemId'],
-                'material_id'=>$item['materialItemId'],
-                'quantity'=>$item['quantityItem'],
-                'unit_price'=>$item['unitPriceItem'],
-                'price_total'=>$item['priceTotal']
-            ]);
-    
-            $saleInvoiceDetail->save();
-            $saleInvoiceDetails[] = $saleInvoiceDetail;
-    
-            $productDetail = ProductDetail::where('product_id', $item['productItemId'])
-                ->where('size_id', $item['sizeItemId'])
-                ->where('color_id', $item['colorItemId'])->where('material_id',$item['materialItemId'])
-                ->first();
-    
-            if($productDetail){
-                $productDetail->quantity -= $item['quantityItem'];
-                $productDetail->save();
+            
+            if(!$customerData['phone']){
+                return response()->json([
+                    'success' => false,
+                    'message' =>'Missing phone number!'
+                ]);
             }
-        }
-    
-        return response()->json([
-            'success' => true,
-            'message' =>'Order Success!',
-            'data' =>$saleInvoiceDetails
-        ], 200);
+            
+            $customer = Customer::where('phone', $customerData['phone'])->first();
+            if(!$customer){
+                $customer = Customer::create([
+                    'name' =>$customerData['name'],
+                    'gender' =>$customerData['gender'],
+                    'phone' =>$customerData['phone'],
+                    'address' =>$customerData['address'],
+                ]);
+            }
+            
+            $saleInvoice = SaleInvoice::create([
+                'customer_id' =>$customer->id,
+                'export_date' => date('Y-m-d H:i:s'),
+                'status' =>'unconfimred',
+                'shipping_id'=>$shippingMethod['id'],
+                'payment_method'=>$paymentMethod,
+                'total_amount' =>$totalPriceCart,
+            ]);
+        
+            $saleInvoiceDetails = [];
+        
+            foreach ($cart as $cartItem) {
+                $saleInvoiceDetail = new SaleInvoiceDetail([
+                    'sale_invoice_id' => $saleInvoice->id,
+                    'product_id' => $cartItem['product']['id'],
+                    'size_id' => $cartItem['size_id'],
+                    'color_id' => $cartItem['color_id'],
+                    'quantity' => $cartItem['quantity'],
+                    'unit_price' => $cartItem['product']['price'],
+                    'price_total' => $cartItem['quantity'] * $cartItem['product']['price'],
+                ]);
+            
+                $saleInvoiceDetail->save();
+                $saleInvoiceDetails[] = $saleInvoiceDetail;
+            
+                $productDetail = ProductDetail::where('product_id', $cartItem['product']['id'])
+                    ->where('size_id', $cartItem['size_id'])
+                    ->where('color_id', $cartItem['color_id'])
+                    ->first();
+            
+                if ($productDetail) {
+                    $productDetail->quantity -= $cartItem['quantity'];
+                    $productDetail->save();
+                }
+            }
+        
+            return response()->json([
+                'success' => true,
+                'message' =>'Order Success!',
+                'data' =>$saleInvoiceDetails
+            ]);
         }catch(\Exception $e){
             return response()->json([
                 'success' => false,

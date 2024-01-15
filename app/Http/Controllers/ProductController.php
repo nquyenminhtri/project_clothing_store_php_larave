@@ -16,6 +16,16 @@ class ProductController extends Controller
         $sizeList = Size::all();
         $colorList = Color::all();
         $materialList = Material::all();
+        $data =[
+            'productList' => $productList,
+            'productCategoryList' =>$productCategoryList,
+            'sizeList' =>$sizeList,
+            'colorList' =>$colorList,
+            'materialList' =>$materialList
+        ];
+        //  return response()->json([
+        //     'data' =>$data
+        //  ]);
         return view('Product/list',compact('productList','productCategoryList','sizeList','colorList','materialList'));
 
     }
@@ -57,9 +67,11 @@ class ProductController extends Controller
             $product->image = $hashedFilename;
         }
         $product->save();
+        $product = Product::with('productProductCategory')->get();
         return response()->json([
             'success' => true,
-            'message' => 'Product created successfully!'
+            'message' => 'Product created successfully!',
+            'data' => $product
         ]);
     }
     public function handleUpdateProduct(Request $request,$id){
@@ -82,9 +94,11 @@ class ProductController extends Controller
             $product->image = $hashedFilename;
         }
         $product->save();
+        $product = Product::with('productProductCategory')->get();
         return response()->json([
             'success' => true,
-            'message' => 'Product updated successfully!'
+            'message' => 'Product updated successfully!',
+            'data' => $product
         ]);
     }
     public function handleDeleteProduct($id){
@@ -104,6 +118,11 @@ class ProductController extends Controller
             }
         }
         $product ->delete();
-        return redirect()->route('product.list')->with('status','Product deleted successfully!');
+        $product = Product::with('productProductCategory')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Product deleted successfully!',
+            'data' => $product
+        ]);
     }
 }

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->date('export_date');
             $table->string('status',50);
+            $table->unsignedBigInteger('shipping_id')->nullable();;
+            $table->string('payment_method')->nullable();;
             $table->decimal('total_amount',10,2);
             $table->timestamps();
         });

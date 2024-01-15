@@ -21,7 +21,7 @@ class SaleInvoiceDetail extends Model
         'price_total'
     ];
     public function saleInvoiceDetailSaleInvoice(){
-        return $this->hasMany(SaleInvoice::class,'sale_invoice_id');
+        return $this->belongsTo(SaleInvoice::class,'sale_invoice_id');
     }
     public function saleInvoiceDetailProduct(){
         return $this->belongsTo(Product::class,'product_id');

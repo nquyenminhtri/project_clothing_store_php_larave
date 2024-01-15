@@ -20,14 +20,21 @@ class ProductCategoryController extends Controller
         $productCategory = new ProductCategory();
         $productCategory ->name = $request->name;
         $productCategory->save();
-        return "Create product category successfully!";
+        $productCategory = ProductCategory::all();
+        return response()->json([
+            'success' =>true,
+            'message' =>'Product category created success!',
+            'data' =>$productCategory,
+        ]);
     }
     public function viewUpdateProductCategory($id){
         $productCategory = ProductCategory::find($id);
         if(empty($productCategory)){
             return 'Product category not found!';
         }
-        return view('Product-Category/update',compact('productCategory'));
+        return response()->json([
+            'data' => $productCategory
+        ]);
     }
     public function handleUpdateProductCategory(Request $request,$id){
         if(empty($request->name)){
@@ -39,6 +46,11 @@ class ProductCategoryController extends Controller
         }
         $productCategory ->name = $request ->name;
         $productCategory ->save();
+        $productCategory = ProductCategory::all();
+        return response()->json([
+            'success' =>true,
+            'data' =>$productCategory
+        ]);
     }
     public function handleDeleteProductCategory($id){
         $productCategory = ProductCategory::find($id);
@@ -46,5 +58,10 @@ class ProductCategoryController extends Controller
             return 'Product category not found!';
         }
         $productCategory->delete();
+        $productCategory = ProductCategory::all();
+        return response()->json([
+            'success' =>true,
+            'data' => $productCategory
+        ]);
     }
 }

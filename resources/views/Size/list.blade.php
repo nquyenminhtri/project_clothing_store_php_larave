@@ -1,20 +1,19 @@
 @extends('layout')
 @section('content')
     <div style="margin-left:1%;withd:100%;height:50px;display:flex; margin-top:-20px" class="row">
-        <h4 style="width:50%;">List Size</h4>
+        <h4 style="width:50%;">List Product Category</h4>
         <div style="width:40%;" class="col-md-6">
-
             <input style="width:100%;" type="text" class="form-control" id="search" placeholder="Enter keywords">
         </div>
     </div>
     <!-- Hidden Inputs -->
     <input type="hidden" id="sizeId" name="sizeId" value="">
     <input type="hidden" id="actionType" name="actionType" value="create">
-
+    <input type="hidden" id="hiddenFileName" name="hiddenFileName" value="">
     <!-- Button trigger modal for Create -->
     <button type="button" class="waves-effect waves-light btn-primary btn-outline-primary btn btn-primary btn-click"
         onclick="setModalAction('create')">
-        <i class="icofont icofont-user-alt-3"></i>Create new size
+        <i class="icofont icofont-user-alt-3"></i>Create new Product Category
     </button>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -22,23 +21,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create new size</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Create new Product Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="false">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="CreateOrUpdateForm" method='POST' action="">
+                    <form id="CreateOrUpdateForm" enctype="multipart/form-data" method='POST' action="">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
                                 <input type="text" name="name" class="form-control"
-                                    placeholder="Enter the size name !" required>
-                                <span class="error-message"></span>
+                                    placeholder="Enter the full name !" required>
+                                <div class="error-message"></div>
                             </div>
                         </div>
-
                     </form>
                 </div>
                 <button type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary btn-create"
@@ -56,6 +54,7 @@
                         <tr>
                             <th>Number</th>
                             <th>Name</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,19 +78,28 @@
             </div>
         </div>
     </div>
-
-
-
+    @php
+        $deleteMethod = method_field('DELETE');
+    @endphp
     <script>
+        function handleFileChange() {
+            if (this.files && this.files.length > 0) {
+                var fileName = this.files[0].name;
+                $('#hiddenFileName').val(fileName);
+                $('#fileNameDisplay').text('Selected file: ' + fileName);
+            }
+        }
         // Hàm để set hành động của modal (create hoặc edit)
         function setModalAction(action, sizeId = null) {
+
             if (action === 'create') {
                 // Nếu là tạo mới, đặt lại biểu mẫu và thay đổi tiêu đề modal
                 $('#sizeId').val('');
                 $('#actionType').val('create');
                 $('#CreateOrUpdateForm').attr('action', '{{ route('size.handle-create') }}');
                 $('#CreateOrUpdateForm')[0].reset();
-                $('#exampleModalLabel').text('Create a new size');
+                $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').show();
+                $('#exampleModalLabel').text('Create a new product category');
                 $('#btnActionText').text('Create');
             } else if (action === 'edit') {
                 $('#actionType').val('edit');
@@ -99,25 +107,34 @@
                 $('#CreateOrUpdateForm').attr('action', '{{ url('size/update') }}/' + sizeId);
                 $('#exampleModalLabel').text('Edit size');
                 $('#btnActionText').text('Save');
-                // Lấy dữ liệu nhà cung cấp bằng Ajax
+                // Lấy dữ liệu bằng Ajax
+
                 $.ajax({
                     type: 'GET',
                     url: '{{ url('size/update') }}/' + sizeId,
                     success: function(response) {
-                        // Điền vào biểu mẫu với dữ liệu nhà cung cấp
-                        $('#CreateOrUpdateForm input[name="name"]').val(response.name);
-                        $('#CreateOrUpdateForm input[name="address"]').val(response.address);
-                        $('#CreateOrUpdateForm input[name="phone"]').val(response.phone);
-                        $('#CreateOrUpdateForm input[name="description"]').val(response.description);
+                        console.log(response.data.name);
+                        // Điền vào biểu mẫu với dữ liệu
+                        $('#CreateOrUpdateForm input[name="name"]').val(response.data.name);
+                        $('#CreateOrUpdateForm input[name="user_name"]').val(response.data.user_name);
+                        $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').hide();
+
+                        $('#hiddenFileName').val(response.data.image);
+                        $('#fileNameDisplay').text(response.data.image);
+
+                        // Thêm các dòng tương ứng với các trường dữ liệu khác
                     },
                     error: function(error) {
                         console.log(error);
                     }
                 });
+
             }
             // Hiển thị modal
             $('#exampleModal').modal('show');
+
         }
+
         // Hàm để submit form
         function submitForm() {
             // Kiểm tra từng trường input
@@ -136,30 +153,123 @@
             if (!formIsValid) {
                 return;
             }
-            // Lấy giá trị của actionType
+
             var actionType = $('#actionType').val();
             // Lấy giá trị của ID (nếu có)
             var sizeId = $('#sizeId').val();
+
+            // Tạo một đối tượng FormData để chứa dữ liệu form
+            var formData = new FormData($('#CreateOrUpdateForm')[0]);
+            console.log('dsfs', formData);
             // Sử dụng Ajax để gửi dữ liệu form
+            // Lấy giá trị của CSRF token
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Xây dựng URL dựa trên actionType
+            var url = (actionType === 'create') ? '{{ route('size.handle-create') }}' :
+                '{{ url('size/update') }}/' + sizeId;
+
+            // Nếu là phương thức PUT, thêm CSRF token vào URL và sử dụng `_method`
+            if (actionType === 'edit') {
+                url = '{{ url('size/update') }}/' + sizeId;
+                formData.append('_method', 'PUT'); // Thêm phương thức PUT
+            }
+            console.log('check url:', url);
+            // Sử dụng updateUrl trong Ajax request
             $.ajax({
-                type: (actionType === 'create') ? 'POST' : 'PUT',
-                // Sử dụng toán tử ba ngôi để chọn route phù hợp
-                url: (actionType === 'create') ? '{{ route('size.handle-create') }}' : '{{ url('size/update') }}/' +
-                    sizeId,
-                // Điều chỉnh dữ liệu đang được gửi dựa trên actionType
-                data: (actionType === 'create') ? $('#CreateOrUpdateForm').serialize() : ($('#CreateOrUpdateForm')
-                    .serialize() + '&_method=' + (actionType === 'create' ? 'POST' : 'PUT') + '&_token=' + $(
-                        'meta[name="csrf-token"]').attr('content')),
+                type: (actionType === 'create') ? 'POST' :
+                'POST', // Sử dụng phương thức POST cho cả create và update
+                url: url,
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                contentType: false,
+                processData: false,
                 success: function(response) {
-                    // Đóng modal khi dữ liệu đã được lưu
-                    $('#exampleModal').modal('hide');
-                    // Hiển thị thông báo thành công
-                    alert('Dữ liệu đã được lưu thành công!');
+                    if (!response.success) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed!',
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 1500 // Tự động đóng sau 1.5 giây
+                        });
+                    } else {
+                        fillDataTable(response.data);
+                        $('#exampleModal').modal('hide');
+                        // Hiển thị thông báo thành công với SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Data saved successfully!',
+                            showConfirmButton: false,
+                            timer: 1500 // Tự động đóng sau 1.5 giây
+                        });
+                    }
                 },
                 error: function(error) {
                     console.log(error.responseJSON);
                 }
             });
+        }
+
+        function handleDelete(sizeId) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/size/delete/' + sizeId,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        fillDataTable(response.data);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Product Category deleted success!',
+                            timer: 1300
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Product Category deleted failed!',
+                            timer: 1300
+                        });
+                    }
+
+                },
+                error: function(error) {
+                    console.log(error.responseJSON);
+                }
+            })
+        }
+
+        function fillDataTable(data) {
+            $('#tableContainer tbody').empty();
+            var deleteRoute = '{{ route('size.delete', ['id' => ':id']) }}';
+            var deleteMethod = '{{ method_field('DELETE') }}';
+            $.each(data, function(index, size) {
+                var deleteUrl = deleteRoute.replace(':id', size.id);
+                var row = '<tr>' +
+                    '<td>' + size.id + '</td>' +
+                    '<td>' + size.name + '</td>' +
+                    '<td style="display:flex;align-items: center;">' +
+                    '<a href="#" onclick="setModalAction(\'edit\', ' + size.id + ')">' +
+                    '<button type="button" class="btn btn-warning">Edit</button>' +
+                    '</a> | ' +
+                    '<form id="deleteForm_' + size.id +
+                    '" onsubmit="return confirm(\'Are you sure you want to delete this size?\');" >' +
+                    '@csrf' +
+                    '@method('DELETE')' +
+                    '<button type="button" class="btn btn-danger" onclick="handleDelete(' + size.id +
+                    ')">Delete</button>' +
+                    '</form>' +
+                    '</td>' +
+                    '</tr>';
+                $('#tableContainer tbody').append(row);
+            })
         }
         document.addEventListener("DOMContentLoaded", function() {
             // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm

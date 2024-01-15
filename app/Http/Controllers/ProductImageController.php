@@ -10,32 +10,55 @@ class ProductImageController extends Controller
         $productImageList = ProductImage::all();
         return view('Product-Image/list',compact('productImageList'));
     }
-    public function handleCreateProductImage(Request $request)
-{
-    // Validate the request
-
-    if ($request->hasFile('images')) {
-        $files = $request->file('images');
-
-        foreach ($files as $file) {
-            // Tạo tên tệp duy nhất
-            $hashedFilename = time() . '_' . $file->getClientOriginalName();
-
-            // Lưu tệp tin trong thư mục 'public/product-images'
-            $file->storeAs('product-images', $hashedFilename, 'public');
-
-            // Tạo một đối tượng ProductImage mới
-            $productImage = new ProductImage();
-            $productImage ->product_id = $request->product_id;
-            $productImage->image = $hashedFilename;
-            $productImage->save();
-        }
-
-        return redirect()->route('product-image.list')->with('success', 'Image product created success!');
+    public function getProductImageListByProductId($productId){
+        $productImageList = ProductImage::where('product_id', $productId)->get();
+        return view('Product-Image/list', ['productImageList' => $productImageList, 'productId' => $productId]);
     }
-
-    return back()->with('status', 'Image not found!');
-}
+    public function handleCreateProductImage(Request $request)
+    {
+       
+        // Validate the request
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+    
+            foreach ($files as $file) {
+                try {
+                    // Validate file type if needed
+    
+                    // Create a unique file name
+                    $hashedFilename = time() . '_' . $file->getClientOriginalName();
+    
+                    // Check and create storage directory if not exists
+                    $storagePath = public_path('product-images');
+                    if (!file_exists($storagePath)) {
+                        mkdir($storagePath, 0755, true);
+                    }
+    
+                    // Save the file in the 'public/product-images' directory
+                    $file->storeAs('product-images', $hashedFilename, 'public');
+    
+                    // Check if 'product_id' exists and is valid
+    
+                    // Create a new ProductImage object
+                    $productImage = new ProductImage();
+                    $productImage->product_id = $request->product_id;
+                    $productImage->name = $hashedFilename;
+                    $productImage->save();
+                } catch (\Exception $e) {
+                    // Handle exceptions (e.g., file type not allowed, directory creation failed)
+                    return back()->with('error', 'Error uploading images: ' . $e->getMessage());
+                }
+            }
+            $productImage = ProductImage::all();
+            return response()->json([
+                'success' =>true,
+                'message' => 'Add image successfully !',
+                'data' => $productImage,
+            ]);
+        }
+    
+        return back()->with('error', 'Images not found!');
+    }
 
     public function handleUpdateProductImage(Request $request){
 

@@ -6,6 +6,13 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\APIFavoriteProductController;
 use App\Http\Controllers\APIRatingController;
 use App\Http\Controllers\APISaleInvoiceController;
+use App\Http\Controllers\APICommentController;
+use App\Http\Controllers\APICustomerAuthController;
+use App\Http\Controllers\APISlideController;
+use App\Http\Controllers\APILoginFacebookController;
+use App\Http\Controllers\APIPromotionController;
+use App\Http\Controllers\APIShippingController;
+use App\Http\Controllers\APIMaterialController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +39,30 @@ Route::delete('/product/favorite/{id}',[APIFavoriteProductController::class,'han
 
 //Rating
 Route::post('/product/rating',[APIRatingController::class,'handleCreateRating']);
+Route::get('/product/rating/{id}',[APIRatingController::class,'getRatingProductByProductId']);
 
 //Sale invoice 
 Route::post('/sale-invoice',[APISaleInvoiceController::class,'handleCreateSaleInvoice']);
 Route::post('/sale-invoice/received/{id}',[APISaleInvoiceController::class,'handleSuccessSaleInvoice']);
+
+//comment
+Route::post('/comment/create',[APICommentController::class,'handelCreateComment']);
+
+//Login Customer
+Route::post('/customer/login',[APICustomerAuthController::class,'handleCustomerLogin']);
+Route::post('/customer/logout', [APICustomerAuthController::class,'handleCustomerLogout']);
+Route::middleware('auth:api')->group(function () {
+    
+});
+
+//Slide
+Route::get('/slide/list',[APISlideController::class,'getSlideList']);
+
+//Promotion
+Route::post('/promotion',[APIPromotionController::class,'handlePromotionCode']);
+
+//Shipping Method
+Route::get('/shipping',[APIShippingController::class,'getShinppingMethodList']);
+
+//Material 
+Route::get('/material/list',[APIMaterialController::class,'getMaterialList']);

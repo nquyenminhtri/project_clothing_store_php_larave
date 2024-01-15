@@ -31,4 +31,32 @@ class APIRatingController extends Controller
         ]);
 
     }
+    public function getRatingProductByProductId($id)
+{
+    $productRating = Rating::where('product_id', $id)->get();
+
+    if ($productRating->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'This product has no reviews yet!',
+            'data' => $productRating,
+        ]);
+    }
+
+    $totalRating = 0;
+    foreach ($productRating as $rating) {
+        $totalRating += $rating->rating;
+    }
+
+    $averageRating = $totalRating / count($productRating);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Get rating successfully!',
+        'data' => [
+            'productRating' => $productRating,
+            'averageRating' => $averageRating,
+        ],
+    ]);
+}
 }

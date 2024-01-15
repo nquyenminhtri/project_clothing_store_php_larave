@@ -10,24 +10,30 @@ class ColorController extends Controller
         $colorList = Color::all();
         return view('Color/list',compact('colorList'));
     }
-    public function viewCreateColor(){
-        return view('Color/create');
-    }
     public function handleCreateColor(Request $request){
         if(empty($request)){
             return "Missing parametter";
         }
         $color = new Color();
         $color ->name = $request ->name;
+        $color ->color_code = $request ->color;
         $color ->save();
-        return redirect()->route('color.list')->with('status', 'Create new color successfully!');
+        $color = Color::all();
+
+        return response()->json([
+            'success' =>true,
+            'data' =>$color
+        ]);
     }
     public function viewUpdateColor($id){
         $color = Color::find($id);
         if(empty($color)){
             return "Color does not exist in system!";
         }
-        return view('Color/update',compact('color'));
+        return response()->json([
+            'success' =>true,
+            'data' =>$color
+        ]);
         
 
     }
@@ -40,8 +46,14 @@ class ColorController extends Controller
             return "Color not found!";
         }
         $color ->name = $request ->name;
+        $color ->color_code = $request ->color;
         $color ->save();
-        return redirect()->route('color.list')->with('status', 'Update color successfully!');
+        $color = Color::all();
+
+        return response()->json([
+            'success' =>true,
+            'data' =>$color
+        ]);
     }
     public function handleDeleteColor($id){
         $color = Color::find($id);
@@ -49,6 +61,11 @@ class ColorController extends Controller
             return 'Color not found!';
         }
         $color ->delete();
-        return redirect()->route('color.list')->with('status', 'Delete finished!');
+        $color = Color::all();
+
+        return response()->json([
+            'success' =>true,
+            'data' =>$color
+        ]);
     }
 }

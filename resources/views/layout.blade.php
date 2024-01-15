@@ -273,7 +273,7 @@
                                             </a>
                                         </li>
                                         <li class="pcoded-hasmenu">
-                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <a href="{{ route('customer.list') }}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-user"></i><b></b></span>
                                                 <span class="pcoded-mtext">CUSTOMER</span>
                                                 <span class="pcoded-mcaret"></span>
@@ -358,7 +358,7 @@
                                             </a>
                                         </li>
                                         <li class="pcoded-hasmenu">
-                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <a href="{{ route('material.list') }}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i
                                                         class="ti-layout-grid2-alt"></i><b>BC</b></span>
                                                 <span class="pcoded-mtext">MATERIAL</span>
@@ -510,6 +510,10 @@
                                         <ul class="breadcrumb">
                                             <li class="breadcrumb-item">
                                                 <a href="{{ route('layout') }}"> <i class="fa fa-home"></i> </a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="{{ route('layout') }}">Dashboard</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="{{ route('layout') }}">Dashboard</a>
                                             </li>
                                             <li class="breadcrumb-item"><a href="{{ route('layout') }}">Dashboard</a>
                                             </li>
@@ -766,6 +770,12 @@
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }} "></script>
     <script src="{{ asset('sweetalert2/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('chart.js/dist/chart.umd.js') }}"></script>
+    <!-- Liên kết CSS của Spectrum Color Picker -->
+    <link rel="stylesheet" type="text/css" href={{ asset('spectrum/spectrum.css') }}>
+
+    <!-- Liên kết JS của Spectrum Color Picker -->
+    <script src={{ asset('spectrum/spectrum.js') }}></script>
+
 </body>
 @yield('page-js')
 @if (session('status'))
