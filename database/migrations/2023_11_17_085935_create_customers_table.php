@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('social_id')->nullable();
             $table->string('name', 100);
             $table->string('image', 100)->nullable();
-            $table->string('gender');
+            $table->string('gender')->nullable();
             $table->string('phone');
+            $table->string('email')->nullable();
             $table->string('password')->nullable();
             $table->string('address');
             $table->timestamps();

@@ -21,6 +21,9 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SlideShowController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StatisticalController;
+use App\Http\Controllers\RelatedProductController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ShippingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,7 +117,9 @@ Route::middleware('auth:admin')->group(function(){
     //Product Image
     Route::get('product/image-list/{productId}',[ProductImageController::class, 'getProductImageListByProductId'])->name('productImage.detail-list');
     Route::post('product/image-create/{productId?}',[ProductImageController::class, 'handleCreateProductImage'])->name('productImage.handle-create');
+    Route::put('productImage/update/{productId?}',[ProductImageController::class, 'handleUpdateProductImage'])->name('productImage.handle-update');
     Route::delete('product/image-delete/{productId}',[ProductImageController::class,'handleDeleteProductImage'])->name('productImage.delete');
+    
     //Sale invoice
     Route::get('sale-invoice',[SaleInvoiceController::class,'getSaleInvoiceList'])->name('sale-invoice.list');
     Route::post('sale-invoice/{id}',[SaleInvoiceController::class,'handleConfirmSaleInvoice'])->name('sale-invoice.confirm');
@@ -158,6 +163,19 @@ Route::middleware('auth:admin')->group(function(){
 
     //StatisticalController
     Route::get('/statistical',[StatisticalController::class,'viewStatistical']);
+
+    //Related Product 
+    Route::get('/relate-product',[RelatedProductController::class,'getRelatedProduct'])->name('related-product.list');
+
+    //Rating 
+    Route::get('/rating',[RatingController::class,'getRating'])->name('rating.list');
+    
+    //Shipping Method
+    Route::get('/shipping',[ShippingController::class,'getListShipping'])->name('shipping.list');
+    Route::post('/shipping/create',[ShippingController::class,'handleCreateShippingMethod'])->name('shipping.handle-create');
+    Route::get('shipping/update/{id}',[ShippingController::class,'viewUpdateShippingMethod'])->name('shipping.update');
+    Route::put('shipping/update/{id}',[ShippingController::class,'handleUpdateShippingMethod'])->name('shipping.handle-update');
+    Route::delete('/shipping/delete/{id}',[ShippingController::class,'handleDeleteShippingMethod'])->name('shipping.delete');
 });
 
 

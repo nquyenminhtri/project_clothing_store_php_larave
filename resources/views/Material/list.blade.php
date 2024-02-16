@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
     <div style="margin-left:1%;withd:100%;height:50px;display:flex; margin-top:-20px" class="row">
-        <h4 style="width:50%;">List Product Category</h4>
+        <h4 style="width:50%;">List material</h4>
         <div style="width:40%;" class="col-md-6">
             <input style="width:100%;" type="text" class="form-control" id="search" placeholder="Enter keywords">
         </div>
@@ -13,7 +13,7 @@
     <!-- Button trigger modal for Create -->
     <button type="button" class="waves-effect waves-light btn-primary btn-outline-primary btn btn-primary btn-click"
         onclick="setModalAction('create')">
-        <i class="icofont icofont-user-alt-3"></i>Create new Product Category
+        <i class="icofont icofont-user-alt-3"></i>Create new material
     </button>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -21,7 +21,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create new Product Category</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Create new material</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="false">&times;</span>
                     </button>
@@ -99,7 +99,7 @@
                 $('#CreateOrUpdateForm').attr('action', '{{ route('material.handle-create') }}');
                 $('#CreateOrUpdateForm')[0].reset();
                 $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').show();
-                $('#exampleModalLabel').text('Create a new product category');
+                $('#exampleModalLabel').text('Create a new material');
                 $('#btnActionText').text('Create');
             } else if (action === 'edit') {
                 $('#actionType').val('edit');
@@ -116,13 +116,6 @@
                         console.log(response.data.name);
                         // Điền vào biểu mẫu với dữ liệu
                         $('#CreateOrUpdateForm input[name="name"]').val(response.data.name);
-                        $('#CreateOrUpdateForm input[name="user_name"]').val(response.data.user_name);
-                        $('#CreateOrUpdateForm input[name="password"]').closest('.form-group').hide();
-
-                        $('#hiddenFileName').val(response.data.image);
-                        $('#fileNameDisplay').text(response.data.image);
-
-                        // Thêm các dòng tương ứng với các trường dữ liệu khác
                     },
                     error: function(error) {
                         console.log(error);

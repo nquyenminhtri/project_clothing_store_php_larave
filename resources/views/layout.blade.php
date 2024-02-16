@@ -333,6 +333,14 @@
 
                                         </li>
                                         <li class="pcoded-hasmenu">
+                                            <a href="{{ route('product.list') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="fas fa-dice-d6"></i></span>
+                                                <span class="pcoded-mtext">RELATED PRODUCT</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+
+                                        </li>
+                                        <li class="pcoded-hasmenu">
                                             <a href="{{ route('product-category.list') }}"
                                                 class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i
@@ -450,9 +458,19 @@
                             </ul>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <a href="{{ route('rating.list') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
                                         <span class="pcoded-mtext">Rating</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+
+                                </li>
+                            </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                    <a href="{{ route('shipping.list') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
+                                        <span class="pcoded-mtext">Shipping method</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
 

@@ -17,6 +17,7 @@
                             <th>Customer</th>
                             <th>Export date</th>
                             <th>Status</th>
+                            <th>Payment method</th>
                             <th>Total amount</th>
                             <th>Action</th>
                         </tr>
@@ -46,6 +47,7 @@
                                         </div>
                                     @endif
                                 </td>
+                                <td>{{ $saleInvoice->payment_method }}</td>
                                 <td>{{ $saleInvoice->total_amount }}</td>
                                 <td style="display:flex;align-items: center;">
                                     <form method="POST"
@@ -60,7 +62,10 @@
                                     <form method="POST"
                                         action="{{ route('sale-invoice.cancel', ['id' => $saleInvoice->id]) }}">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                        <button type="submit" class="btn btn-danger"
+                                            @if ($saleInvoice->status === 'successed') disabled @endif>
+                                            Cancel
+                                        </button>
                                     </form>
                                 </td>
                             <tr>

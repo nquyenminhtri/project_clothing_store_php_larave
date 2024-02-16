@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\Storage;
 class ProductImageController extends Controller
 {
     public function getProductImageList(){
@@ -60,10 +61,51 @@ class ProductImageController extends Controller
         return back()->with('error', 'Images not found!');
     }
 
-    public function handleUpdateProductImage(Request $request){
-
-    }
-    public function handleDeleteProductImage(Request $request){
+    public function handleUpdateProductImage(Request $request,$id){
         
+        try {
+            // Find the ProductImage by ID
+            $productImage = ProductImage::findOrFail($id);
+            // Delete the old image from storage
+            Storage::delete('product-images/' . $productImage->name);
+    
+            // Upload the new image
+            if ($request->hasFile('images')) {
+                $newImage = $request->file('images')[0];
+                $hashedFilename = time() . '_' . $newImage->getClientOriginalName();
+                $newImage->storeAs('product-images', $hashedFilename, 'public');
+                // Update the necessary fields
+                $productImage->name = $hashedFilename;
+            }
+            
+            $productImage->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Product image updated successfully!',
+                'data' => $productImage,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update product image: ' . $e->getMessage(),
+            ]);
+        }
+    }
+    public function handleDeleteProductImage($id){
+        try {
+            $productImage = ProductImage::findOrFail($id);
+            Storage::delete('product-images/' . $productImage->name);
+            $productImage->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Product image deleted successfully!',
+                'data' => ProductImage::all(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete product image: ' . $e->getMessage(),
+            ]);
+        }
     }
 }

@@ -8,6 +8,8 @@ use App\Models\ProductDetail;
 use App\Models\SaleInvoice;
 use App\Models\SaleInvoiceDetail;
 use App\Models\Customer;
+use App\Models\Rating;
+use Mail;
 class APISaleInvoiceController extends Controller
 {
     public function handleCreateSaleInvoice(Request $request) {
@@ -34,6 +36,7 @@ class APISaleInvoiceController extends Controller
                     'name' =>$customerData['name'],
                     'gender' =>$customerData['gender'],
                     'phone' =>$customerData['phone'],
+                    'email' =>$customerData['email'],
                     'address' =>$customerData['address'],
                 ]);
             }
@@ -73,7 +76,10 @@ class APISaleInvoiceController extends Controller
                     $productDetail->save();
                 }
             }
-        
+            Mail::send('emails.order_confirmation',compact('saleInvoiceDetails'),function($email)use ($customer){
+                $email->subject('Đơn hàng từ clothing store.');
+                $email->to($customer['email'],'Kiến thức - kinh nghiệm - trải nghiệm.');
+            });
             return response()->json([
                 'success' => true,
                 'message' =>'Order Success!',
@@ -95,6 +101,33 @@ class APISaleInvoiceController extends Controller
         return response()->json([
             'success' =>true,
             'message' =>'The order has been delivered!',
+        ]);
+    }
+    public function getSaleInvoiceByIdCustomer($id){
+        $saleInvoiceCustomer = SaleInvoice::where('customer_id',$id)
+        ->with('saleInvoiceShipping')
+        ->with('saleInvoiceSaleInvoiceDetail')
+        ->with('saleInvoiceSaleInvoiceDetail.saleInvoiceDetailProduct')
+        ->with('saleInvoiceSaleInvoiceDetail.saleInvoiceDetailSize')
+        ->with('saleInvoiceSaleInvoiceDetail.saleInvoiceDetailColor')->get();
+        
+        if(empty($saleInvoiceCustomer)){
+            return response()->json([
+                'success' =>false,
+                'message' =>'You have no orders'
+            ]);
+        }
+        foreach ($saleInvoiceCustomer as $saleInvoice) {
+            foreach ($saleInvoice->saleInvoiceSaleInvoiceDetail as $detail) {
+                $rating = Rating::where('customer_id', $id)
+                                ->where('product_id', $detail->product_id)
+                                ->first();
+                $detail->hasReviewed = $rating ? true : false;
+            }
+        }
+        return response()->json([
+            'success' =>true,
+            'saleInvoiceCustomer' => $saleInvoiceCustomer
         ]);
     }
 }

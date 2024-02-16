@@ -36,8 +36,6 @@
                                     <a href="{{ route('import-invoice.detail-list', ['id' => $importInvoice->id]) }}"><button
                                             class="btn waves-effect waves-light btn-info btn-outline-info"><i
                                                 class="icofont icofont-info-square"></i>Detail</button></a>|
-                                    <a href="{{ route('import-invoice.update', ['id' => $importInvoice->id]) }}"><button
-                                            type="button" class="btn btn-warning">Edit</button></a>
                                     |
                                     <form method="POST"
                                         action="{{ route('import-invoice.delete', ['id' => $importInvoice->id]) }}">

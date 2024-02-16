@@ -52,7 +52,7 @@
                 @if ($productImageList->isEmpty())
                     <p>Product is not available.</p>
                 @else
-                    <table class="table table-hover">
+                    <table id="tableContainer" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Number</th>
@@ -136,6 +136,7 @@
             $('#exampleModal').modal('show');
         }
 
+
         // Hàm để submit form
         function submitForm() {
             // Kiểm tra từng trường input
@@ -198,6 +199,8 @@
                         });
                     } else {
                         $('#exampleModal').modal('hide');
+                        console.log('name', response.data);
+
                         // Hiển thị thông báo thành công với SweetAlert
                         Swal.fire({
                             icon: 'success',
@@ -214,6 +217,35 @@
             });
         }
 
+        function fillDataTable(data) {
+            $('#tableContainer tbody').empty();
+            if (data.length === 0) {
+                $('#tableContainer tbody').append('<tr><td colspan="4">No product images available.</td></tr>');
+            } else {
+                $.each(data, function(index, productImage) {
+                    var row = '<tr>' +
+                        '<td>' + productImage.id + '</td>' +
+                        '<td>' + productImage.name + '</td>' +
+                        '<td><img style="width: 100px; height: 100px;" src="{{ asset('product-images') }}/' +
+                        productImage.name + '" alt="no image"></td>' +
+                        '<td style="display:flex;align-items: center;">' +
+                        '<a href="#" onclick="setModalAction(\'edit\', ' + productImage.id + ')">' +
+                        '<button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>' +
+                        '</a> | ' +
+                        '<form id="deleteForm_' + productImage.id +
+                        '" onsubmit="return confirm(\'Are you sure you want to delete this Image?\');" >' +
+                        '@csrf' +
+                        '@method('DELETE')' +
+                        '<button type="button" class="btn btn-danger" onclick="handleDelete(' + productImage.id +
+                        ')">Delete</button>' +
+                        '</form>' +
+                        '</td>' +
+                        '</tr>';
+
+                    $('#tableContainer tbody').append(row);
+                });
+            }
+        }
         $(document).ready(function() {
             // In phiên bản jQuery ra console
             console.log(jQuery.fn.jquery);

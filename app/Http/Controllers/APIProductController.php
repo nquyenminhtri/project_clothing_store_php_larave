@@ -31,9 +31,9 @@ class APIProductController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'description' =>$product->description,
-                'category_id' =>$product->category_id,
+                'category_id' =>$product->productProductCategory,
                 'price' => $product->price,
-                'image_path' => asset("product-images/{$product->image}"), // Điều chỉnh tên cột cho đúng với tên cột lưu tên hình ảnh trong cơ sở dữ liệu
+                'image_path' => asset("product-images/{$product->image}"),
                 
             ];
         });

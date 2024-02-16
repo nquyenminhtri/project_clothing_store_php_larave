@@ -15,4 +15,10 @@ class Rating extends Model
         'star',
         'comment'
     ];
+    public  function ratingCustomer(){
+        return $this->belongsTo(Customer::class,'customer_id');
+    }
+    public  function ratingProduct(){
+        return $this->belongsTo(Product::class,'product_id');
+    }
 }

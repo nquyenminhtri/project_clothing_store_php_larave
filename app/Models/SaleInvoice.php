@@ -24,4 +24,11 @@ class SaleInvoice extends Model
     {
         return $this->hasMany(SaleInvoiceDetail::class, 'sale_invoice_id');
     }
+    public function saleInvoiceDetails()
+    {
+        return $this->hasMany(SaleInvoiceDetail::class);
+    }
+    public function saleInvoiceShipping(){
+        return $this->belongsTo(Shipping::class,'shipping_id');
+    }
 }
